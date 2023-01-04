@@ -1,4 +1,14 @@
 # Dove
+## アーキテクチャ
+- Frontend
+ - Node.js
+ - React
+- Backend
+ - Rust
+ - Anchor
+- Blockchain
+ - Solana
+ - Phantom Wallet
 
 ## Accountの仕様
 - Project
