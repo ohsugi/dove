@@ -9,6 +9,9 @@
 - Blockchain
   - Solana
   - Phantom Wallet
+- Deployment
+  - Replit
+  - GitHub
 
 ## Account Specification
 - Project
