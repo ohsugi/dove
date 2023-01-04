@@ -1,16 +1,16 @@
 # Dove
-## アーキテクチャ
+## Architecture
 - Frontend
- - Node.js
- - React
+  - Node.js
+  - React
 - Backend
- - Rust
- - Anchor
+  - Rust
+  - Anchor
 - Blockchain
- - Solana
- - Phantom Wallet
+  - Solana
+  - Phantom Wallet
 
-## Accountの仕様
+## Account Specification
 - Project
   - プロジェクトのPubkey
   - 対象国の名前
@@ -48,7 +48,7 @@
   - これまでの合計プール金額最大値
   - これまでの合計送金済金額
 
-## 画面の仕様
+## Screen Specification
 - ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ
   - プロジェクトページへの遷移ボタン、表示されている各プロジェクトのファンドページへのボタンが表示される
   - プロジェクトが増えてきた場合は、プロジェクト一覧の検索・フィルタリング機能を追加する
