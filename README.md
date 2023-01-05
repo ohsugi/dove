@@ -120,3 +120,6 @@
   - 現在の合計プール金額（自動算出）
   - これまでの合計プール金額最大値
   - これまでの合計送金済金額
+  
+  ## Credit
+- Arjun: https://github.com/LearnWithArjun
