@@ -1,6 +1,6 @@
 # Dove
 ## Consideration
-- 特定の国対象でなくProject登録制にする意図
+- The objective of the project-based funding system instead of the specific target country
   - 受取相手のWalletのPubkeyがわからないため、自己申告制にしてWalletのPubkeyを登録してもらう
   - アイデア、ユースケース、平和に興味の中心があるため、政治信条的には中立的立場で運用したい
   - 特定の国対象のシステムを作ってもカウンターとなる敵対国の同様のシステムがすぐに作られるであろうと思われるため
@@ -14,6 +14,7 @@
   - 例えばプールされている金額の半分を自動的にステーキングして利益を稼ぐ
   - 稼いだ利益から一部をマージンとして受け取り、開発費・運営費に回す
   - 残りは出資者に投資比率で案分して配布
+- 自身がその本人だと証明するためのリンク
 
 ## Architecture
 - Frontend
