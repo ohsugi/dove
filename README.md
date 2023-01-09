@@ -67,7 +67,7 @@
   - HTML link to prove own identity
   - The profile will be shown on the webpage, default is no
   - The current pooled amount
-  - The current pooled amount
+  - The amount transferred by the user
 
 ## Screen Specification
 - ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ
