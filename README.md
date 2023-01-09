@@ -34,43 +34,40 @@
   - Replit
   - GitHub
 
-## Account Specification
+## Struct
 - Project
-  - プロジェクトのPubkey
-  - 対象国の名前
-  - プロジェクト登録日
-  - プロジェクト更新日
-  - プロジェクト有効フラグ
-  - プロジェクト削除フラグ
-  - プロジェクトの説明
-  - 資金受取後の利用用途
-  - 動画もしくは画像へのリンク
-  - 自身のソーシャルメディアアカウント・Webページなどへのリンク（10個まで）
-  - 資金受け取り組織・個人（自身）の名前
-  - 資金受け取りWalletのPubkey
-  - 自身がその組織だと証明するためのリンク
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
+  - Admin's Wallet (Pubkey): the organization or individual to receive the fund
+  - Admin name
+  - The HTML link to prove Admin's identity
+  - Project Name
+  - Target country: normalize_country::Country
+  - Description and the usage of the transferred Solana
+  - Project craetion date: DateTime<Utc>
+  - Project update date: DateTime<Utc>
+  - If project is effective: Boolean Flag
+  - If project is deleted: Boolean Flag
+  - Video link to describe the project (intended youtube link)
+  - Social media link of the project/admin: Vec<String>
+  - The maximum amount pooled previously
+  - The amount transferred so far
 - Fund
-  - ファンド対象プロジェクトのPubkey
-  - 接続されている（投資元）WalletのPubkey
-  - 出資金額
-  - 被攻撃判断閾値
-  - 現在攻撃を受けていると判断するか
-  - 自身のアカウント情報をプロジェクトページに表示するか否か、defaultはNo
-  - 自身の投資金額をプロジェクトページに表示するか否か、defaultはNo
-  - ウォッチリストへの追加、defaultはNo
+  - The target project pubkey
+  - The founder's Wallet pubkey
+  - The current pooled amount
+  - The transferred amount so far
+  - The threshold to trigger transfer
+  - The decision percentage
+  - If the user will be shown on the project webpage, default is false
+  - If the user's pooled amount on the project webpage, default is false
+  - If the user's transferred amount on the project webpage, default is false
 - User
-  - 対象WalletのPubkey
-  - ユーザ名（誰かと重複していても良い）
-  - メールアドレス（登録されていればプッシュで情報を配信できるようになる、画面には表示しない）
-  - 自身のSNSアカウント・Webページなどへのリンク（10個まで）
-  - 自身がその本人だと証明するためのリンク
-  - これまで出資したプロジェクトのPubkey一覧
-  - 自身の情報を公開したいか否か、defaultはNo
-  - 現在の合計プール金額（自動算出）
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
+  - Wallet pubkey
+  - User name
+  - Social media links of the user
+  - HTML link to prove own identity
+  - The profile will be shown on the webpage, default is no
+  - The current pooled amount
+  - The current pooled amount
 
 ## Screen Specification
 - ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ
