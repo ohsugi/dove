@@ -52,7 +52,6 @@
   - **last_date_funded**: i64: The last date the project got funded (as Unix Time
   - **amount_pooled_transition**: Vec\<f64\>: The amount pooled transition for last 365 days
   - **bump**: u8
-
 - **DoveFund**
   - **project_pubkey**: Pubkey: The target project pubkey
   - **user_pubkey**: Pubkey: The founder's Wallet pubkey
