@@ -35,42 +35,42 @@
   - GitHub
 
 ## Account Specification
-- Project
-  - プロジェクトのPubkey
-  - 対象国の名前
-  - プロジェクト登録日
-  - プロジェクト更新日
-  - プロジェクト有効フラグ
-  - プロジェクト削除フラグ
-  - プロジェクトの説明
-  - 資金受取後の利用用途
-  - 動画もしくは画像へのリンク
-  - 自身のソーシャルメディアアカウント・Webページなどへのリンク（10個まで）
-  - 資金受け取り組織・個人（自身）の名前
-  - 資金受け取りWalletのPubkey
-  - 自身がその組織だと証明するためのリンク
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
-- Fund
-  - ファンド対象プロジェクトのPubkey
-  - 接続されている（投資元）WalletのPubkey
-  - 出資金額
-  - 被攻撃判断閾値
-  - 現在攻撃を受けていると判断するか
-  - 自身のアカウント情報をプロジェクトページに表示するか否か、defaultはNo
-  - 自身の投資金額をプロジェクトページに表示するか否か、defaultはNo
-  - ウォッチリストへの追加、defaultはNo
-- User
-  - 対象WalletのPubkey
-  - ユーザ名（誰かと重複していても良い）
-  - メールアドレス（登録されていればプッシュで情報を配信できるようになる、画面には表示しない）
-  - 自身のSNSアカウント・Webページなどへのリンク（10個まで）
-  - 自身がその本人だと証明するためのリンク
-  - これまで出資したプロジェクトのPubkey一覧
-  - 自身の情報を公開したいか否か、defaultはNo
-  - 現在の合計プール金額（自動算出）
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
+- **DoveProject**
+  - **admin_wallet**: Pubkey: Admin's Wallet
+  - **admin_name**: String: Admin's Name
+  - **evidence_link**: String: Hyper link to show the other users to make sure the admin's identity
+  - **project_name**: String: Project Name
+  - **target_country_code**: String: Target Country code (defined in the iso_country::Country)
+  - **opponent_country_code**: String: Opponent Country code (defined in the iso_country::Country)
+  - **description**: String: Project description
+  - **created_date**: i64: Project created date (unix-time stap)
+  - **update_date**: i64: Project last update date (unix-time stap)
+  - **is_effective**: bool: Project Effective flag
+  - **is_deleted**: bool: Project Delete flag 
+  - **video_link**: String: Video link to describe the project as string (intended Youtube)
+  - **amount_transferred**: f64: The amount transferred to the admin
+  - **last_date_funded**: i64: The last date the project got funded (as Unix Time
+  - **amount_pooled_transition**: Vec\<f64\>: The amount pooled transition for last 365 days
+  - **bump**: u8
+
+- **DoveFund**
+  - **project_pubkey**: Pubkey: The target project pubkey
+  - **user_pubkey**: Pubkey: The founder's Wallet pubkey
+  - **amount_pooled**: u64: The current pooled amount
+  - **amount_transferred**: u64: The transferred amount so far
+  - **decision**: f32: The decision percentage
+  - **is_shown**: bool: If the user will be shown on the project webpage
+  - **shows_pooled_amount**: bool: If the user's pooled amount on the project webpage
+  - **shows_transferred_amount**: bool: If the user's transferred amount on the project webpage
+
+- **DoveUser**
+  - **user_wallet**: Pubkey: Wallet pubkey
+  - **user_name**: String: User name
+  - **social_media_link**: String: Social media links of the user
+  - **evidence_link**: String: HTML link to prove own identity
+  - **is_shown: bool**: The profile will be shown on each project webpage
+  - **amount_pooled**: f64: The current pooled amount
+  - **amount_transferred**: f64: The transferred amount so far
 
 ## Screen Specification
 - ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ
