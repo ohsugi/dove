@@ -58,20 +58,20 @@ impl DoveProject {
 impl SizeDef for DoveProject {
     const SIZE: usize = DoveProject::HEADER_SIZE                   // Header
         + DoveProject::PUBKEY_SIZE                                 // admin_wallet
-        + DoveProject::MAX_ADMIN_NAME * DoveProject::STRING_SIZE   // admin_name
-        + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // evidence_link
-        + DoveProject::MAX_PROJECT_NAME * DoveProject::STRING_SIZE // project_name
-        + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // target_country_code
-        + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // opponent_country_code
-        + DoveProject::MAX_DESCRIPTION * DoveProject::STRING_SIZE  // description
+        + 4 + DoveProject::MAX_ADMIN_NAME * DoveProject::STRING_SIZE   // admin_name
+        + 4 + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // evidence_link
+        + 4 + DoveProject::MAX_PROJECT_NAME * DoveProject::STRING_SIZE // project_name
+        + 4 + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // target_country_code
+        + 4 + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // opponent_country_code
+        + 4 + DoveProject::MAX_DESCRIPTION * DoveProject::STRING_SIZE  // description
         + DoveProject::I64_SZIE       // created_date
         + DoveProject::I64_SZIE       // update_date
         + DoveProject::BOOL_SIZE      // is_effective
         + DoveProject::BOOL_SIZE      // is_deleted
-        + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // video_link
+        + 4 + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // video_link
         + DoveProject::U64_SIZE       // amount_transferred
         + DoveProject::I64_SZIE       // last_date_funded
-        + DoveProject::U64_SIZE * DoveProject::MAX_AMOUNT_POOLED_TRANSITION  // amount_pooled_transition
+        + 4 + DoveProject::U64_SIZE * DoveProject::MAX_AMOUNT_POOLED_TRANSITION  // amount_pooled_transition
         + DoveProject::BUMP_SIZE      // bump
     ;
 }
@@ -120,9 +120,9 @@ impl DoveUser {
 impl SizeDef for DoveUser {
     const SIZE: usize = DoveUser::HEADER_SIZE // Header
         + DoveUser::PUBKEY_SIZE    // user_wallet
-        + DoveUser::MAX_USER_NAME * DoveUser::STRING_SIZE // user_name
-        + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // social_media_links
-        + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE   // evidence_link
+        + 4 + DoveUser::MAX_USER_NAME * DoveUser::STRING_SIZE // user_name
+        + 4 + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // social_media_links
+        + 4 + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE   // evidence_link
         + DoveUser::BOOL_SIZE      // is_shown
         + DoveProject::U64_SIZE    // amount_pooled
         + DoveProject::U64_SIZE    // amount_transferred
