@@ -5,7 +5,6 @@ use iso_country::Country;
 
 #[derive(Accounts)]
 #[instruction(
-    admin_name: String,
     evidence_link: String,
     project_name: String,
     target_country_name: String,
@@ -13,7 +12,6 @@ use iso_country::Country;
     description: String,
     video_link: String,
     is_effective: bool,
-    is_deleted: bool,
 )]
 pub struct UpdateDoveProject<'info> {
     #[account(mut)]
@@ -24,7 +22,6 @@ pub struct UpdateDoveProject<'info> {
 
 pub fn handler(
     ctx: Context<UpdateDoveProject>,
-    admin_name: String,
     evidence_link: String,
     project_name: String,
     target_country_name: String,
@@ -32,17 +29,12 @@ pub fn handler(
     description: String,
     video_link: String,
     is_effective: bool,
-    is_deleted: bool,
 ) -> Result<()> {
     let project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
 
     require!(
-        admin_name.len() >= DoveProject::MIN_ADMIN_NAME,
-        TooShortAdminName
-    );
-    require!(
-        admin_name.len() <= DoveProject::MAX_ADMIN_NAME,
-        TooLongAdminName
+        project.admin_wallet == ctx.accounts.admin.key(),
+        InvalidUserToUpdateDoveProject
     );
 
     require!(
@@ -89,7 +81,6 @@ pub fn handler(
         TooLongVideoLink
     );
 
-    project.admin_name = admin_name;
     project.evidence_link = evidence_link;
     project.project_name = project_name;
     project.target_country_code = target_country.unwrap().to_string();
@@ -99,11 +90,10 @@ pub fn handler(
         project.opponent_country_code = opponent_country.unwrap().to_string();
     }
     project.description = description;
-    project.amount_transferred = 0.0;
+    project.amount_transferred = 0;
 
     project.update_date = DoveProject::get_now_as_unix_time();
     project.is_effective = is_effective;
-    project.is_deleted = is_deleted;
     project.video_link = video_link;
     Ok(())
 }

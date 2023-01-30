@@ -37,7 +37,6 @@
 ## Account Specification
 - **DoveProject**
   - **admin_wallet**: Pubkey: Admin's Wallet
-  - **admin_name**: String: Admin's Name
   - **evidence_link**: String: Hyper link to show the other users to make sure the admin's identity
   - **project_name**: String: Project Name
   - **target_country_code**: String: Target Country code (defined in the iso_country::Country)
@@ -48,19 +47,22 @@
   - **is_effective**: bool: Project Effective flag
   - **is_deleted**: bool: Project Delete flag 
   - **video_link**: String: Video link to describe the project as string (intended Youtube)
-  - **amount_transferred**: f64: The amount transferred to the admin
-  - **last_date_funded**: i64: The last date the project got funded (as Unix Time
-  - **amount_pooled_transition**: Vec\<f64\>: The amount pooled transition for last 365 days
+  - **amount_pooled**: u64: The current pooled amount (as Lamports)
+  - **amount_transferred**: u64: The amount transferred so far (as Lamports)
+  - **decision**: u64: The current decision for this project
   - **bump**: u8
+
 - **DoveFund**
   - **project_pubkey**: Pubkey: The target project pubkey
   - **user_pubkey**: Pubkey: The founder's Wallet pubkey
   - **amount_pooled**: u64: The current pooled amount
   - **amount_transferred**: u64: The transferred amount so far
   - **decision**: f32: The decision percentage
-  - **is_shown**: bool: If the user will be shown on the project webpage
+  - **shows_user**: bool: If the user will be shown on the project webpage
   - **shows_pooled_amount**: bool: If the user's pooled amount on the project webpage
   - **shows_transferred_amount**: bool: If the user's transferred amount on the project webpage
+  - **created_date**: i64: Fund craetion date (as Unix Time)
+  - **update_date**: i64: Fund update date (as Unix Time)
 
 - **DoveUser**
   - **user_wallet**: Pubkey: Wallet pubkey
@@ -68,8 +70,10 @@
   - **social_media_link**: String: Social media links of the user
   - **evidence_link**: String: HTML link to prove own identity
   - **is_shown: bool**: The profile will be shown on each project webpage
-  - **amount_pooled**: f64: The current pooled amount
-  - **amount_transferred**: f64: The transferred amount so far
+  - **amount_pooled**: u64: The current pooled amount
+  - **amount_transferred**: u64: The transferred amount so far
+  - **created_date**: i64: User craetion date (as Unix Time)
+  - **update_date**: i64: User update date (as Unix Time)
 
 ## Screen Specification
 - ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ

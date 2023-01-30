@@ -14,7 +14,6 @@ pub mod dove {
 
     pub fn create_dove_project(
         ctx: Context<CreateDoveProject>,
-        admin_name: String,
         evidence_link: String,
         project_name: String,
         target_country_name: String,
@@ -24,7 +23,6 @@ pub mod dove {
     ) -> Result<()> {
         create_dove_project::handler(
             ctx,
-            admin_name,
             evidence_link,
             project_name,
             target_country_name,
@@ -36,7 +34,6 @@ pub mod dove {
 
     pub fn update_dove_project(
         ctx: Context<UpdateDoveProject>,
-        admin_name: String,
         evidence_link: String,
         project_name: String,
         target_country_name: String,
@@ -44,11 +41,9 @@ pub mod dove {
         description: String,
         video_link: String,
         is_effective: bool,
-        is_deleted: bool,
     ) -> Result<()> {
         update_dove_project::handler(
             ctx,
-            admin_name,
             evidence_link,
             project_name,
             target_country_name,
@@ -56,7 +51,24 @@ pub mod dove {
             description,
             video_link,
             is_effective,
-            is_deleted,
+        )
+    }
+
+    pub fn create_dove_fund(
+        ctx: Context<CreateDoveFund>,
+        amount_pooled: u64,
+        decision: f32,
+        shows_user: bool,
+        shows_pooled_amount: bool,
+        shows_transferred_amount: bool,
+    ) -> Result<()> {
+        create_dove_fund::handler(
+            ctx,
+            amount_pooled,
+            decision,
+            shows_user,
+            shows_pooled_amount,
+            shows_transferred_amount,
         )
     }
 }

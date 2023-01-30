@@ -2,11 +2,6 @@ use anchor_lang::prelude::*;
 
 #[error_code]
 pub enum ErrorCode {
-    #[msg("Too short Admin Name.")]
-    TooShortAdminName,
-    #[msg("Too long Admin Name.")]
-    TooLongAdminName,
-
     #[msg("Too long Evidence Link.")]
     TooLongEvidenceLink,
 
@@ -31,8 +26,6 @@ pub enum ErrorCode {
 
     #[msg("Invalid Is Effective flag.")]
     InvalidIsEffective,
-    #[msg("Invalid Is Deleted flag.")]
-    InvalidDeleted,
 
     #[msg("Too long Video link.")]
     TooLongVideoLink,
@@ -40,16 +33,23 @@ pub enum ErrorCode {
     #[msg("Too long URL in social Media links")]
     TooLongUrlInSocialMediaLinks,
 
+    #[msg("Too small Amount Pooled")]
+    TooSmallAmountPooled,
+    #[msg("Too large Amount Pooled")]
+    TooLargeAmountPooled,
+
     #[msg("Too small Amount Transferred")]
     TooSmallAmountTransferred,
     #[msg("Too large Amount Transferred")]
     TooLargeAmountTransferred,
 
+    #[msg("Too small Decision value")]
+    TooSmallDecision,
     #[msg("Invalid Decision value")]
-    InvalidDecision,
+    TooLargeDecision,
 
-    #[msg("Invalid Is Shown Flag.")]
-    InvalidIsShown,
+    #[msg("Invalid Shows User Flag.")]
+    InvalidShowsUser,
 
     #[msg("Invalid Shows Pooled Amount flag.")]
     InvalidShowsPooledAmount,
@@ -62,11 +62,8 @@ pub enum ErrorCode {
     #[msg("Too long User Name.")]
     TooLongUserName,
 
-    #[msg("Too small Amount Pooled")]
-    TooSmallAmountPooled,
-    #[msg("Too large Amount Pooled")]
-    TooLargeAmountPooled,
-
+    #[msg("Invalid User to Update Dove Project.")]
+    InvalidUserToUpdateDoveProject,
     #[msg("Debug Message")]
     DebugError,
 }
