@@ -71,4 +71,13 @@ pub mod dove {
             shows_transferred_amount,
         )
     }
+
+    pub fn create_dove_user(
+        ctx: Context<CreateDoveUser>,
+        user_name: String,
+        social_link: String,
+        evidence_link: String,
+    ) -> Result<()> {
+        create_dove_user::handler(ctx, user_name, social_link, evidence_link)
+    }
 }

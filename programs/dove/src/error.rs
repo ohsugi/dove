@@ -30,6 +30,11 @@ pub enum ErrorCode {
     #[msg("Too long Video link.")]
     TooLongVideoLink,
 
+    #[msg("Url too short.")]
+    TooShortUrl,
+    #[msg("Url too long.")]
+    TooLongUrl,
+
     #[msg("Too long URL in social Media links")]
     TooLongUrlInSocialMediaLinks,
 
