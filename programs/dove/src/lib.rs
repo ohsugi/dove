@@ -8,6 +8,10 @@ use instructions::*;
 
 declare_id!("7ucMA2F1i5V1U2WDSEdwJhmdTc34aRZCxpbvkzF56XGs");
 
+// pub const PROGRAM_ID: Pubkey =
+//     anchor_lang::solana_program::pubkey!("7ucMA2F1i5V1U2WDSEdwJhmdTc34aRZCxpbvkzF56XGs");
+// const RPC_URL: &str = "Local";
+
 #[program]
 pub mod dove {
     use super::*;

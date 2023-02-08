@@ -45,7 +45,7 @@ pub enum ErrorCode {
 
     #[msg("Too small Decision value")]
     TooSmallDecision,
-    #[msg("Invalid Decision value")]
+    #[msg("Too large  Decision value")]
     TooLargeDecision,
 
     #[msg("Invalid Shows User Flag.")]
@@ -64,6 +64,13 @@ pub enum ErrorCode {
 
     #[msg("Invalid User to Update Dove Project.")]
     InvalidUserToUpdateDoveProject,
+
+    #[msg("Solana transaction failed.")]
+    SolanaTransationFailed,
+
+    #[msg("DoveProject has InsufficientFunds")]
+    InsufficientFunds,
+
     #[msg("Debug Message")]
     DebugError,
 }
