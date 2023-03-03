@@ -119,10 +119,12 @@ pub struct DoveUser {
     pub amount_transferred: u64,   // The transferred amount so far (as Lamports)
     pub created_date: i64,         // User craetion date (as Unix Time)
     pub update_date: i64,          // User update date (as Unix Time)
+    pub bump: u8,
 }
 
 impl DoveUser {
     pub const MAX_USER_NAME: usize = 255;
+    pub const MIN_USER_NAME: usize = 3;
 }
 
 impl SizeDef for DoveUser {
@@ -135,6 +137,6 @@ impl SizeDef for DoveUser {
         + DoveUser::U64_SIZE       // amount_pooled
         + DoveUser::U64_SIZE       // amount_transferred
         + DoveUser::I64_SZIE       // created_date
-        + DoveUser::I64_SZIE       // update_date        
-    ;
+        + DoveUser::I64_SZIE       // update_date   
+        + DoveUser::BUMP_SIZE;
 }
