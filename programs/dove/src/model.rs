@@ -41,6 +41,7 @@ pub struct DoveProject {
     pub amount_pooled: u64,            // The current pooled amount (as Lamports)
     pub amount_transferred: u64,       // The amount transferred so far (as Lamports)
     pub decision: f32,                 // The current decision for this project
+    pub last_date_transferred: i64,    // The last time pooled amount was transferred
     pub bump: u8,
 }
 
@@ -71,6 +72,7 @@ impl SizeDef for DoveProject {
         + DoveProject::U64_SIZE       // amount_pooled
         + DoveProject::U64_SIZE       // amount_transferred
         + DoveProject::F32_SIZE       // decision
+        + DoveProject::I64_SZIE       // last_date_transferred
         + DoveProject::BUMP_SIZE      // bump
     ;
 }
@@ -137,6 +139,6 @@ impl SizeDef for DoveUser {
         + DoveUser::U64_SIZE       // amount_pooled
         + DoveUser::U64_SIZE       // amount_transferred
         + DoveUser::I64_SZIE       // created_date
-        + DoveUser::I64_SZIE       // update_date   
+        + DoveUser::I64_SZIE       // update_date
         + DoveUser::BUMP_SIZE;
 }

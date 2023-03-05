@@ -10,6 +10,7 @@ describe("test_dove_project", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const program = anchor.workspace.Dove as Program<Dove>;
   const DEFAULT_LAMPORTS: number = 4 * web3.LAMPORTS_PER_SOL;
+  const ACCEPTABLE_DATE_ERROR = 10000000;
 
   let admin: web3.Keypair;
 
@@ -28,6 +29,7 @@ describe("test_dove_project", () => {
       program,
       admin,
     );
+    const dove_project_created_date = Date.now();
     const doveProjectAccount = await program.account.doveProject.fetch(doveProject);
     assert.equal(doveProjectAccount.adminWallet.toString(), admin.publicKey.toString());
     assert.equal(doveProjectAccount.evidenceLink, "");
@@ -41,6 +43,8 @@ describe("test_dove_project", () => {
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);
     assert.equal(doveProjectAccount.decision, 0);
+    assert.ok(doveProjectAccount.createdDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
+    assert.ok(doveProjectAccount.lastDateTransferred.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
   });
 
   it("updateDoveProject", async () => {
@@ -54,6 +58,7 @@ describe("test_dove_project", () => {
       program,
       admin,
     );
+    const dove_project_created_date = Date.now();
     const doveProjectAccount = await program.account.doveProject.fetch(doveProject);
     assert.equal(doveProjectAccount.adminWallet.toString(), admin.publicKey.toString());
     assert.equal(doveProjectAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1615827817627017217?s=20&t=gFmtF8G4VrnDrzB0jhCsRA");
@@ -67,6 +72,8 @@ describe("test_dove_project", () => {
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);
     assert.equal(doveProjectAccount.decision, 0);
+    assert.ok(doveProjectAccount.createdDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
+    assert.ok(doveProjectAccount.lastDateTransferred.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
 
     await sleep(1000);
 
@@ -95,5 +102,7 @@ describe("test_dove_project", () => {
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);
     assert.equal(doveProjectAccount.decision, 0);
+    assert.ok(doveProjectAccount.createdDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
+    assert.ok(doveProjectAccount.lastDateTransferred.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
   });
 });

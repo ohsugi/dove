@@ -20,7 +20,6 @@
    > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
  - Install the latest version of the CLI using avm, and then set it to be the version to use.
   > avm install latest
-  >
   > avm use latest
  - Verify the installation.
   > anchor --version

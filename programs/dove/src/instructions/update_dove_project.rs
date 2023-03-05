@@ -1,6 +1,8 @@
-use crate::model::{DoveProject, SizeDef};
+use crate::{
+    error::ErrorCode,
+    model::{DoveProject, SizeDef},
+};
 use anchor_lang::prelude::*;
-
 use iso_country::Country;
 
 #[derive(Accounts)]
@@ -34,51 +36,62 @@ pub fn handler(
 
     require!(
         project.admin_wallet == ctx.accounts.admin.key(),
-        InvalidUserToUpdateDoveProject
+        ErrorCode::InvalidUserToUpdateDoveProject
     );
 
     require!(
         evidence_link.len() <= DoveProject::MAX_HYPERLINK,
-        TooLongEvidenceLink
+        ErrorCode::TooLongEvidenceLink
     );
 
     require!(
         project_name.len() >= DoveProject::MIN_PROJECT_NAME,
-        TooShortProjectName
+        ErrorCode::TooShortProjectName
     );
     require!(
         project_name.len() <= DoveProject::MAX_PROJECT_NAME,
-        TooLongProjectName
+        ErrorCode::TooLongProjectName
     );
 
     let target_country: Option<Country> = Country::from_name(target_country_name.as_str());
-    require!(target_country != None, InvalidTargetCountryName);
+    require!(target_country != None, ErrorCode::InvalidTargetCountryName);
 
     let opponent_country: Option<Country> = Country::from_name(opponent_country_name.as_str());
     require!(
         (opponent_country_name.as_str() == "")    // opponent_country_name can be empty 
             || (opponent_country != None), // otherwise, it should be different from the target country
-        InvalidOpponentCountryName
+        ErrorCode::InvalidOpponentCountryName
     );
 
     require!(
         (opponent_country_name.as_str() == "")    // opponent_country_name can be empty 
             || (target_country.unwrap() != opponent_country.unwrap()), // otherwise, it should be different from the target country
-        TargetAndOpponentCountriesAreSame
+        ErrorCode::TargetAndOpponentCountriesAreSame
     );
 
     require!(
         description.len() >= DoveProject::MIN_DESCRIPTION,
-        TooShortDescription
+        ErrorCode::TooShortDescription
     );
     require!(
         description.len() <= DoveProject::MAX_DESCRIPTION,
-        TooLongDescription
+        ErrorCode::TooLongDescription
     );
 
     require!(
         video_link.len() <= DoveProject::MAX_HYPERLINK,
-        TooLongVideoLink
+        ErrorCode::TooLongVideoLink
+    );
+
+    require!(
+        (project.evidence_link != evidence_link)
+            || (project.project_name != project_name)
+            || (project.target_country_code != target_country.unwrap().to_string())
+            || (project.opponent_country_code != opponent_country.unwrap().to_string())
+            || (project.description != description)
+            || (project.video_link != video_link)
+            || (project.is_effective != is_effective),
+        ErrorCode::NoChangeToDoveProject
     );
 
     project.evidence_link = evidence_link;
