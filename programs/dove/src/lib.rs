@@ -79,6 +79,7 @@ pub mod dove {
         evidence_link: String,
     ) -> Result<()> {
         create_dove_user::handler(ctx, user_name, social_link, evidence_link)
+    }
 
     pub fn update_dove_fund(
         ctx: Context<UpdateDoveFund>,
