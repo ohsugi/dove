@@ -8,10 +8,6 @@ use instructions::*;
 
 declare_id!("7ucMA2F1i5V1U2WDSEdwJhmdTc34aRZCxpbvkzF56XGs");
 
-// pub const PROGRAM_ID: Pubkey =
-//     anchor_lang::solana_program::pubkey!("7ucMA2F1i5V1U2WDSEdwJhmdTc34aRZCxpbvkzF56XGs");
-// const RPC_URL: &str = "Local";
-
 #[program]
 pub mod dove {
     use super::*;
@@ -83,5 +79,22 @@ pub mod dove {
         evidence_link: String,
     ) -> Result<()> {
         create_dove_user::handler(ctx, user_name, social_link, evidence_link)
+
+    pub fn update_dove_fund(
+        ctx: Context<UpdateDoveFund>,
+        new_amount_pooled: u64,
+        new_decision: f32,
+        new_shows_user: bool,
+        new_shows_pooled_amount: bool,
+        new_shows_transferred_amount: bool,
+    ) -> Result<()> {
+        update_dove_fund::handler(
+            ctx,
+            new_amount_pooled,
+            new_decision,
+            new_shows_user,
+            new_shows_pooled_amount,
+            new_shows_transferred_amount,
+        )
     }
 }

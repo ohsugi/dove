@@ -1,4 +1,7 @@
-use crate::model::{DoveUser, SizeDef};
+use crate::{
+    error::ErrorCode,
+    model::{DoveProject, SizeDef},
+};
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
@@ -27,16 +30,16 @@ pub fn handler(
 
     require!(
         user_name.len() >= DoveUser::MIN_USER_NAME,
-        TooShortAdminName
+        ErrorCode::TooShortAdminName
     );
 
-    require!(user_name.len() <= DoveUser::MAX_USER_NAME, TooLongAdminName);
+    require!(user_name.len() <= DoveUser::MAX_USER_NAME, ErrorCode::TooLongAdminName);
 
-    require!(social_link.len() >= 4, TooShortUrl);
-    require!(social_link.len() <= DoveUser::MAX_HYPERLINK, TooLongUrl);
+    require!(social_link.len() >= 4, ErrorCode::TooShortUrl);
+    require!(social_link.len() <= DoveUser::MAX_HYPERLINK, ErrorCode::TooLongUrl);
 
-    require!(evidence_link.len() >= 4, TooShortUrl);
-    require!(evidence_link.len() <= DoveUser::MAX_HYPERLINK, TooLongUrl);
+    require!(evidence_link.len() >= 4, ErrorCode::TooShortUrl);
+    require!(evidence_link.len() <= DoveUser::MAX_HYPERLINK, ErrorCode::TooLongUrl);
 
     user.user_wallet = admin.key();
     user.user_name = user_name;
