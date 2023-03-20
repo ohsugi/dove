@@ -50,8 +50,8 @@ describe("test_create_dove_fund", () => {
 
         await sleep(1000);
 
-        let dove_project_previous_lamports = await getBalance(program, doveProject);
-        assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_previous_lamports);
+        let dove_project_lamports = await getBalance(program, doveProject);
+        assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
         assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS);
 
         const transferred_lamports_by_user0 = 1.1 * web3.LAMPORTS_PER_SOL;
@@ -85,20 +85,10 @@ describe("test_create_dove_fund", () => {
 
         await sleep(1000);
 
-        let dove_project_new_lamports_after_fund0 = await getBalance(program, doveProject);
-        let dove_fund0_previous_lamports = await getBalance(program, doveFund0);
-        assert.equal(
-            await getBalance(program, admin.publicKey),
-            DEFAULT_LAMPORTS - dove_project_previous_lamports
-        );
-        assert.equal(
-            await getBalance(program, user0.publicKey),
-            DEFAULT_LAMPORTS - dove_fund0_previous_lamports - transferred_lamports_by_user0
-        );
-        assert.equal(
-            dove_project_new_lamports_after_fund0,
-            dove_project_previous_lamports + transferred_lamports_by_user0
-        );
+        assert.equal(await getBalance(program, doveProject), dove_project_lamports);
+        assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
+        let dove_fund0_lamports = await getBalance(program, doveFund0);
+        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS - dove_fund0_lamports);
 
         const transferred_lamports_by_user1 = 1.2 * web3.LAMPORTS_PER_SOL;
         const doveFund1 = await createDoveFund(
@@ -137,23 +127,10 @@ describe("test_create_dove_fund", () => {
 
         await sleep(1000);
 
-        let dove_project_new_lamports_after_fund1 = await getBalance(program, doveProject);
-        let dove_fund1_previous_lamports = await getBalance(program, doveFund1);
-        assert.equal(
-            await getBalance(program, admin.publicKey),
-            DEFAULT_LAMPORTS - dove_project_previous_lamports
-        );
-        assert.equal(
-            await getBalance(program, user0.publicKey),
-            DEFAULT_LAMPORTS - dove_fund0_previous_lamports - transferred_lamports_by_user0
-        );
-        assert.equal(
-            await getBalance(program, user1.publicKey),
-            DEFAULT_LAMPORTS - dove_fund1_previous_lamports - transferred_lamports_by_user1
-        );
-        assert.equal(
-            dove_project_new_lamports_after_fund1,
-            dove_project_previous_lamports + transferred_lamports_by_user0 + transferred_lamports_by_user1
-        );
+        assert.equal(await getBalance(program, doveProject), dove_project_lamports);
+        assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
+        assert.equal(await getBalance(program, doveFund0), dove_fund0_lamports);
+        let dove_fund1_lamports = await getBalance(program, doveFund1);
+        assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS - dove_fund1_lamports);
     });
 });

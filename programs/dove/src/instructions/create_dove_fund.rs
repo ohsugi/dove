@@ -56,14 +56,14 @@ pub fn handler(
     // Transfer Solana to dove_project_account from the user wallet
     let ix = anchor_lang::solana_program::system_instruction::transfer(
         &ctx.accounts.user.key(),
-        &dove_project.key(),
+        &dove_fund.key(),
         amount_pooled
     );
     anchor_lang::solana_program::program::invoke(
         &ix,
         &[
             ctx.accounts.user.to_account_info(),
-            dove_project.to_account_info()
+            dove_fund.to_account_info()
         ]
     );
 

@@ -1,5 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, utils } from "@project-serum/anchor";
+import { SystemProgram } from "@solana/web3.js";
 import { Dove } from "../target/types/dove";
 
 export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -85,7 +86,9 @@ export const createDoveProject = async (
     ).accounts({
         doveProject,
         admin: admin.publicKey,
+        systemProgram: SystemProgram.programId,
     }).signers([admin]).rpc();
+
     return doveProject;
 };
 
@@ -144,6 +147,7 @@ export const createDoveFund = async (
         doveFund,
         doveProject,
         user: user.publicKey,
+        systemProgram: SystemProgram.programId,
     }).signers([user]).rpc();
     return doveFund;
 };
@@ -157,7 +161,6 @@ export const updateDoveFund = async (
     new_shows_transferred_amount: boolean,
     program: Program<Dove>,
     user: web3.Keypair,
-    admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
     const [doveFund, __] = await findAddress(
         [
@@ -176,6 +179,7 @@ export const updateDoveFund = async (
         doveFund,
         doveProject,
         user: user.publicKey,
+        systemProgram: SystemProgram.programId,
     }).signers([user]).rpc();
     return doveFund;
 };

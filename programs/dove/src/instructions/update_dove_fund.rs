@@ -17,8 +17,6 @@ pub struct UpdateDoveFund<'info> {
     pub dove_project: Account<'info, DoveProject>,
     #[account(mut)]
     pub user: Signer<'info>,
-    #[account(mut)]
-    pub admin: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
 
@@ -36,7 +34,7 @@ pub fn handler(
 
     require!(
         dove_fund.user_pubkey == user.key(),
-        ErrorCode::InvalidUserToUpdateDoveFund
+        ErrorCode::InvalidUserToDoveFund
     );
 
     require!(
@@ -66,44 +64,32 @@ pub fn handler(
         dove_fund.amount_transferred = dove_fund.amount_pooled;
     }
 
-    // Add the amount to the DoveProject
+    // Add the amount to the DoveFund
     if dove_fund.amount_pooled < new_amount_pooled {
-        // Transfer Solana to dove_project_account from the user wallet
-        let added_amount = new_amount_pooled -  dove_fund.amount_pooled;
-        // let rent_balance = Rent::get()?.minimum_balance(dove_project.to_account_info().data_len());
-        // **dove_project.to_account_info().try_borrow_mut_lamports()? += added_amount;
-        // **user.to_account_info().try_borrow_mut_lamports()? -= added_amount
+        // Transfer Solana to dove_fund_account from the user wallet
+        let added_amount = new_amount_pooled - dove_fund.amount_pooled;
         let ix = anchor_lang::solana_program::system_instruction::transfer(
             &user.key(),
-            &dove_project.key(),
+            &dove_fund.key(),
             added_amount
-        );
+            );
         anchor_lang::solana_program::program::invoke(
             &ix,
             &[
                 user.to_account_info(),
-                dove_project.to_account_info(),
+                dove_fund.to_account_info(),
             ]
         );
 
-    // Withdraw the amount pooled from the DoveProject
+    // Withdraw the amount pooled from the DoveFund
     } else if dove_fund.amount_pooled > new_amount_pooled {
         // Transfer Solana to the user wallet from dove_project_account
         let withdraw_amount = dove_fund.amount_pooled - new_amount_pooled;
-        // **dove_project.to_account_info().try_borrow_mut_lamports()? -= withdraw_amount;
-        // **user.to_account_info().try_borrow_mut_lamports()? += withdraw_amount;
-        let ix = anchor_lang::solana_program::system_instruction::transfer(
-            &dove_project.key(),
-            &user.key(),
-            withdraw_amount
-        );
-        anchor_lang::solana_program::program::invoke(
-            &ix,
-            &[
-                dove_project.to_account_info(),
-                user.to_account_info(),
-            ]
-        );
+        // Transfer Solana to the user wallet from dove_fund_account
+        let rent_balance = Rent::get()?.minimum_balance(dove_fund.to_account_info().data_len());
+        require!(**dove_fund.to_account_info().lamports.borrow() - rent_balance >= withdraw_amount, ErrorCode::InsufficientFundsInDoveFund);
+        **dove_fund.to_account_info().try_borrow_mut_lamports()? -= withdraw_amount;
+        **user.to_account_info().try_borrow_mut_lamports()? += withdraw_amount;
     }
 
     let old_amount_pooled: u64 = dove_fund.amount_pooled;
@@ -120,7 +106,7 @@ pub fn handler(
     let old_project_amount_pooled: u64 = dove_project.amount_pooled;
     let old_project_decision:f32 = dove_project.decision;
 
-    dove_project.amount_pooled += new_amount_pooled - old_amount_pooled;
+    dove_project.amount_pooled = dove_project.amount_pooled - old_amount_pooled + new_amount_pooled;
     dove_project.decision = (old_project_amount_pooled as f32 * old_project_decision - old_amount_pooled as f32 * old_decision + new_amount_pooled as f32 * new_decision) / (old_project_amount_pooled - old_amount_pooled + new_amount_pooled) as f32;
     Ok(())
 }

@@ -93,8 +93,8 @@ pub enum ErrorCode {
     #[msg("Solana transaction failed.")]
     SolanaTransationFailed,
 
-    #[msg("DoveProject has InsufficientFunds")]
-    InsufficientFunds,
+    #[msg("DoveFund has InsufficientFunds")]
+    InsufficientFundsInDoveFund,
 
     #[msg("Invalid amount pooled in Project")]
     InvalidAmountPooledInProject,
@@ -108,8 +108,8 @@ pub enum ErrorCode {
     #[msg("No change applied to the Dove Project")]
     NoChangeToDoveProject,
 
-    #[msg("Invalid User to Update Dove Fund.")]
-    InvalidUserToUpdateDoveFund,
+    #[msg("Invalid User to Dove Fund.")]
+    InvalidUserToDoveFund,
 
     #[msg("Debug Message")]
     DebugError,
