@@ -1,5 +1,98 @@
-# Dove
+# Dove: Advance Donation using the blockchain
+<img src="./images/logo.png" width="50%">
+
+## Background
+There are disasters, wars, and other matters that people wish to avoid beyond borders. Some of them are human-caused disasters that can be (still) delayed or avoided through human intervention, such as acts of invasion or rising temperatures caused by greenhouse effect gases. When these disastrous events (regrettably) occur, people sympathize, and in the spirit of mutual aid, one form of help is to donate money.
+
+However, it is best to avoid the situation in the first place. What if there was an economic incentive to prevent incidents and continue peace or protect the global environment using donations? Furthermore, what if the amount of this donation had a deterrent effect on the other party? This project aims to provide incentives for continued contributions and to deter destructive actions by asking donations before the undesired event and withdrawing the fund when the event has been confirmed that it indeed happened.
+
+### 1. The Basic Idea
+First, the project will provide a place where people can donate depending on how much they wish to avoid a specific “incident.” Anyone can participate in this donation. Now, let us call the collected funds “advance donation.” If the “incident” actually occurs, an organization (aid group) that works to minimize the damage will receive this advance donation. Depending on the amount of donation, and knowing that the advance donation will go to an aid group may discourage the counter party. This aid group could be the invaded country or an NGO that promotes greenhouse gas mitigation. While this “incident” does not occur, the advance donation can be used for investment and its return could be used to provide further support to the aid group or reimburse donors for their contributions. While doners are already willing to donate, returns will incentivize those who wish to avoid the “incident” and continue to do so.
+
+#### 1.1. Criteria of the “Incident”
+There are two criteria for the ’incident’ in order to work. First, the “incident” should be avoidable by human effort. For example, earthquakes and tsunamis, for which there is no fundamental method to avoid, are not suitable. Where as acts of aggression between nations and rising temperatures due to greenhouse effects may be a fit. Second, the “incident” should be easy to confirm based on factual information. For example, “a landing of a missile” or “the difference in average temperatures in various regions.” However, examples show that facts get artificially manipulated via propaganda, so whether or not the “incident” has occurred will be determined by voting from the donor community.
+
+#### 1.2 Transparancy and DAO
+Regular donation projects require trust, and to build this trust, transparency of whether the donations got transferred correctly and the usage (not misappropriated) is critical. This project similarly requires trust during fund aggregation yet the trusted entity will be replaced with a smart contract. Transparency when voting for advance donation transfers, can also be met with this smart contract. In other words, it would be a DAO (Decentralized Autonomous Organization) for preventing man-caused catastrophes.
+
+In addition to the approval of donation transfer, other topics also need consensuses, such as the ratio of votes required for approval (majority, 2/3, etc.), the selection of the recipient (which aid group?), and the vote collection processes. The DAO will also be the place for such discussions.
+
+### 2 Mile stones
+#### 2.1 MVP and the frontend
+First, as an MVP, we will develop a place to aggregate advance donations and a voting mechanism to approve withdrawals. The key for this phase is to deploy the smart contract on devnet and develop the front end. The project will use the Solana blockchain 1, which is cheaper and faster than Ethereum. The system will use SOL (the primary currency used in the Solana blockchain) at this stage.
+
+#### 2.2 Further DAO development
+After the essential processes are in place, we will augment its function as a DAO. It should be able to handle quorum, percentage of affirmative votes required for withdrawal, amount of donations accepted, and operational policy. We will then have the smart contract audited to be prepared to be operated on the mainnet. We will also consider issuing the project’s own currency to control the number of donations and to decouple with the SOL price.(The base blockchain will continue to be Solana.)
+
+#### 2.3 Lowening the barrier
+The act of redeeming at a virtual currency exchange and installing a wallet on a device (or browser) for transactions on the blockchain is still considered a high barrier to participation. This is not limited to Solana.
+
+Therefore, after the DAO is established, infrastructure to lower the participation barrier is important. Specifically, this will make it it easier to participate using legal tender such as dollars, euros and yen. The organization responsible for this function of connecting the blockchain to the common people will need to be legally registered.
+
+***
+
 ## Development
+### Make your own branch and setup the enviornment
+ 1. Fork the repo to your account and clone the forked repo to your local laptop.
+ 1. Install the dependency of `@project-serum/anchor`
+  > yarn add @project-serum/anchor
+ 1. Generate your wallet to deploy the program to Solana block chain.
+  > solana-keygen new -o ./id.json
+ 1. Check the address of your wallet.
+  > solana address
+  > solana address -k ./id.json
+ 1. Airdrop at least 6 SOL to deploy the program to the localnet.
+  > solana airdrop 2
+  > solana airdrop 2
+  > solana airdrop 2 `YOUR WALLET ADDRESS`
+ 1. Then build the program with Anchor.
+  > anchor build
+ 1. Check the Program Account address.
+  > solana address -k ./target/deploy/dove-keypair.json
+ 1. Copy & paste your Program Account addresses. E.g., if the address was `HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN`, you should update the addresses in the below three parts of the files.
+    - ./Anchor.toml
+      ```
+      [programs.localnet]
+      dove = "HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN"
+      
+      [programs.devnet]
+      dove = "HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN"
+      ```
+    - ./programs/dove/src/lib.rs
+      ```
+      use instructions::*;
+      
+      declare_id!("HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN");
+      
+      #[program]
+      pub mod dove {
+      ```
+ 1. Rebuild the program again with the updated address.
+  > anchor build
+ 1. If the error occurred by the inconsistency with the cached key pair, recover/update the cached key pair with the below command and the shown 12-word seed phrase.
+  > solana-keygen recover --force
+    - The error message could be:
+      ```
+      Deploying workspace: http://localhost:8899
+      Upgrade authority: ./id.json
+      Deploying program "dove"...
+      Program path: /home/ohsugi/dove-dev/target/deploy/dove.so...
+      `=====================================================================`
+      Recover the intermediate account's ephemeral keypair file with
+      `solana-keygen recover` and the following 12-word seed phrase:
+      `=====================================================================`
+      coyote twin dish round acid talk marble arch stuff review turn unique
+      `=====================================================================`
+      To resume a deploy, pass the recovered keypair as the
+      [BUFFER_SIGNER] to `solana program deploy` or `solana program write-buffer'.
+      Or to recover the account's lamports, pass it as the
+      [BUFFER_ACCOUNT_ADDRESS] argument to `solana program close`.
+      `=====================================================================`
+      Error: Deploying program failed: Error processing Instruction 1: custom program error: 0x1
+      There was a problem deploying: Output { status: ExitStatus(unix_wait_status(256)), stdout: "", stderr: "" }.
+      ```
+    - In this case `12-word seed phrase` would be `coyote twin dish round acid talk marble arch stuff review turn unique`.
+
 ### Test on the Localnet
  - Run the Solana local validator node for testing in a console window.
   > solana-test-validator
