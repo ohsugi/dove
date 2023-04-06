@@ -9,10 +9,11 @@ describe("test adding users", () => {
 	// Configure the client to use the local cluster.
 	anchor.setProvider(anchor.AnchorProvider.env());
 	const program = anchor.workspace.Dove as Program<Dove>;
+	const DEFAULT_LAMPORTS: number = 4 * anchor.web3.LAMPORTS_PER_SOL;
 	let admin: anchor.web3.Keypair;
 
 	before(async () => {
-		admin = await createUser(program);
+		admin = await createUser(program, DEFAULT_LAMPORTS);
 	})
 
 	it("creates a dove user", async () => {

@@ -2,28 +2,27 @@
 ## Development
 ### Test on the Localnet
  - Run the Solana local validator node for testing in a console window.
-   > solana-test-validator
+  > solana-test-validator
  - Run Anchor Test by skipping to boot the local validator node in the other console.
-   > anchor test --skip-local-validator
+  > anchor test --skip-local-validator
 
 ### Environment
 #### Solana
  - Run the solana-installer in a console to catchup/apply the latest updates
-   > solana-install update
+  > solana-install update
  - Verify the installation.
-   > solana --version
+  > solana --version
 
 #### Anchor
  - Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
-   > cargo install --git https://github.com/project-serum/anchor avm --locked --force
+  > cargo install --git https://github.com/project-serum/anchor avm --locked --force
  - On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
-   > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
+  > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
  - Install the latest version of the CLI using avm, and then set it to be the version to use.
-   > avm install latest
-   >
-   > avm use latest
+  > avm install latest
+  > avm use latest
  - Verify the installation.
-   > anchor --version
+  > anchor --version
 
 ## Consideration
 - The objective of the project-based funding system instead of the specific target country

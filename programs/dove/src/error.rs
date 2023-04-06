@@ -48,10 +48,30 @@ pub enum ErrorCode {
     #[msg("Too large Amount Transferred")]
     TooLargeAmountTransferred,
 
+    #[msg("Too small current Amount Pooled")]
+    TooSmallCurrentAmountPooled,
+    #[msg("Too large current Amount Pooled")]
+    TooLargeCurrentAmountPooled,
+
+    #[msg("Too small new Amount Pooled")]
+    TooSmallNewAmountPooled,
+    #[msg("Too large new Amount Pooled")]
+    TooLargeNewAmountPooled,
+
     #[msg("Too small Decision value")]
     TooSmallDecision,
-    #[msg("Too large  Decision value")]
+    #[msg("Too large Decision value")]
     TooLargeDecision,
+
+    #[msg("Too small current Decision value")]
+    TooSmallCurrentDecision,
+    #[msg("Too large current Decision value")]
+    TooLargeCurrentDecision,
+
+    #[msg("Too small new Decision value")]
+    TooSmallNewDecision,
+    #[msg("Too large new Decision value")]
+    TooLargeNewDecision,
 
     #[msg("Invalid Shows User Flag.")]
     InvalidShowsUser,
@@ -73,8 +93,23 @@ pub enum ErrorCode {
     #[msg("Solana transaction failed.")]
     SolanaTransationFailed,
 
-    #[msg("DoveProject has InsufficientFunds")]
-    InsufficientFunds,
+    #[msg("DoveFund has InsufficientFunds")]
+    InsufficientFundsInDoveFund,
+
+    #[msg("Invalid amount pooled in Project")]
+    InvalidAmountPooledInProject,
+
+    #[msg("Account conversion failed")]
+    AccountConversionFailed,
+
+    #[msg("No change applied to the Dove Fund")]
+    NoChangeToDoveFund,
+
+    #[msg("No change applied to the Dove Project")]
+    NoChangeToDoveProject,
+
+    #[msg("Invalid User to Dove Fund.")]
+    InvalidUserToDoveFund,
 
     #[msg("Debug Message")]
     DebugError,
