@@ -127,6 +127,7 @@ pub struct DoveUser {
 impl DoveUser {
     pub const MAX_USER_NAME: usize = 255;
     pub const MIN_USER_NAME: usize = 3;
+    pub const MIN_HYPERLINK: usize = 4;
 }
 
 impl SizeDef for DoveUser {
