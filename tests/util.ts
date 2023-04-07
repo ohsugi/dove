@@ -46,7 +46,6 @@ export const createDoveUser = async (
     const [doveUser, _] = await findAddress([
         stringToBytes("dove_user"),
         user.publicKey.toBuffer(),
-        stringToBytes(user_name),
     ]);
     await program.methods.createDoveUser(
         user_name,
@@ -55,7 +54,28 @@ export const createDoveUser = async (
         is_shown,
     ).accounts({ doveUser, user: user.publicKey }).signers([user]).rpc();
     return doveUser;
-}
+};
+
+export const updateDoveUser = async (
+    user_name: string,
+    social_link: string,
+    evidence_link: string,
+    is_shown: boolean,
+    program: Program<Dove>,
+    user: web3.Keypair
+): Promise<web3.PublicKey> => {
+    const [doveUser, _] = await findAddress([
+        stringToBytes("dove_user"),
+        user.publicKey.toBuffer(),
+    ]);
+    await program.methods.updateDoveUser(
+        user_name,
+        social_link,
+        evidence_link,
+        is_shown,
+    ).accounts({ doveUser, user: user.publicKey }).signers([user]).rpc();
+    return doveUser;
+};
 
 export const getBalance = async (
     program: Program<Dove>,

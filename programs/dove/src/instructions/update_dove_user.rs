@@ -12,21 +12,15 @@ use anchor_lang::prelude::*;
     is_shown: bool,
 )]
 
-pub struct CreateDoveUser<'info> {
-    #[account(init,
-      payer=user,
-      space=DoveUser::SIZE,
-      seeds=[b"dove_user".as_ref(), user.key().as_ref()],
-      bump,
-    )]
+pub struct UpdateDoveUser<'info> {
+    #[account(mut)]
     pub dove_user: Account<'info, DoveUser>,
     #[account(mut)]
     pub user: Signer<'info>,
-    pub system_program: Program<'info, System>,
 }
 
 pub fn handler(
-    ctx: Context<CreateDoveUser>,
+    ctx: Context<UpdateDoveUser>,
     user_name: String,
     social_media_link: String,
     evidence_link: String,
@@ -61,15 +55,10 @@ pub fn handler(
         ErrorCode::TooLongUrl
     );
 
-    dove_user.user_wallet = ctx.accounts.user.key();
     dove_user.user_name = user_name;
     dove_user.social_media_link = social_media_link;
     dove_user.evidence_link = evidence_link;
     dove_user.is_shown = is_shown;
-    dove_user.amount_pooled = 0;
-    dove_user.amount_transferred = 0;
-    dove_user.created_date = DoveUser::get_now_as_unix_time();
-    dove_user.update_date = dove_user.created_date;
-    dove_user.bump = *ctx.bumps.get("dove_user").unwrap();
+    dove_user.update_date = DoveUser::get_now_as_unix_time();
     Ok(())
 }

@@ -82,6 +82,16 @@ pub mod dove {
         create_dove_user::handler(ctx, user_name, social_link, evidence_link, is_shown)
     }
 
+    pub fn update_dove_user(
+        ctx: Context<UpdateDoveUser>,
+        user_name: String,
+        social_link: String,
+        evidence_link: String,
+        is_shown: bool,
+    ) -> Result<()> {
+        update_dove_user::handler(ctx, user_name, social_link, evidence_link, is_shown)
+    }
+
     pub fn update_dove_fund(
         ctx: Context<UpdateDoveFund>,
         new_amount_pooled: u64,
