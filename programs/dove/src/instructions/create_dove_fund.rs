@@ -13,7 +13,7 @@ pub struct CreateDoveFund<'info> {
     #[account(init,
       payer=user,
       space=DoveFund::SIZE,
-      seeds=[b"dove_fund", dove_project.key().as_ref(), user.key().as_ref()],
+      seeds=[b"dove_fund".as_ref(), dove_project.key().as_ref(), user.key().as_ref()],
       bump,
     )]
     pub dove_fund: Account<'info, DoveFund>,
