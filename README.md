@@ -35,20 +35,20 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 ### Environment
 #### Solana
  1. Run the solana-installer in a console to catchup/apply the latest updates
-  > solana-install update
+    > solana-install update
  1. Verify the installation.
-  > solana --version
+    > solana --version
 
 #### Anchor
  1. Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
-  > cargo install --git https://github.com/project-serum/anchor avm --locked --force
+    > cargo install --git https://github.com/project-serum/anchor avm --locked --force
  1. On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
-  > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
+    > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
  1. Install the latest version of the CLI using avm, and then set it to be the version to use.
-  > avm install latest
-  > avm use latest
+    > avm install latest
+    > avm use latest
  1. Verify the installation.
-  > anchor --version
+    > anchor --version
 
 #### Make your own branch and setup the enviornment
  1. Fork the repo to your account and clone the forked repo to your local laptop.
