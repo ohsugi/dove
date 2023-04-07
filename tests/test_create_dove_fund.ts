@@ -34,6 +34,7 @@ describe("test_create_dove_fund", () => {
             program,
             admin,
         );
+        const dove_project_created_date = Date.now();
         let doveProjectAccount = await program.account.doveProject.fetch(doveProject);
         assert.equal(doveProjectAccount.adminWallet.toString(), admin.publicKey.toString());
         assert.equal(doveProjectAccount.evidenceLink, "");
@@ -41,7 +42,8 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveProjectAccount.targetCountryCode, "JP");
         assert.equal(doveProjectAccount.opponentCountryCode, "");
         assert.equal(doveProjectAccount.description, "This is the test dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
-        assert.equal(doveProjectAccount.createdDate.toNumber(), doveProjectAccount.updateDate.toNumber());
+        assert.ok(doveProjectAccount.createdDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
+        assert.ok(doveProjectAccount.updateDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
         assert.equal(doveProjectAccount.isEffective, true);
         assert.equal(doveProjectAccount.videoLink, "");
         assert.equal(doveProjectAccount.amountPooled, 0);
@@ -82,6 +84,7 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveProjectAccount.amountPooled.toNumber(), transferred_lamports_by_user0);
         assert.equal(doveProjectAccount.amountTransferred.toNumber(), 0);
         assert.equal(Math.round(doveProjectAccount.decision * 100) / 100, 0.2);
+        assert.ok(doveProjectAccount.updateDate.toNumber() - dove_fund0_created_date < ACCEPTABLE_DATE_ERROR);
 
         await sleep(1000);
 
@@ -124,6 +127,7 @@ describe("test_create_dove_fund", () => {
             Math.round(doveProjectAccount.decision * 100) / 100,
             Math.round((transferred_lamports_by_user0 * 0.2 + transferred_lamports_by_user1 * 0.3) / (transferred_lamports_by_user0 + transferred_lamports_by_user1) * 100) / 100
         );
+        assert.ok(doveProjectAccount.updateDate.toNumber() - dove_fund1_created_date < ACCEPTABLE_DATE_ERROR);
 
         await sleep(1000);
 

@@ -29,6 +29,7 @@ describe("test_dove_user", () => {
         );
         const dove_user_created_date = Date.now();
         const doveUserAccount = await program.account.doveUser.fetch(doveUser);
+        assert.equal(doveUserAccount.userWallet.toString(), admin.publicKey.toString());
         assert.equal(doveUserAccount.userName, "User 1");
         assert.equal(doveUserAccount.socialMediaLink, "https://twitter.com/Ohsugi");
         assert.equal(doveUserAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1644117229875724306?s=20");

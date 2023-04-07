@@ -1,10 +1,10 @@
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Dove } from "../target/types/dove";
-import { createUser, createDoveFund, updateDoveFund, createDoveProject, sleep, getBalance } from "./util";
+import { createUser, createDoveFund, updateDoveFund, createDoveProject, sleep, getBalance, deleteDoveFund } from "./util";
 import assert from 'assert';
 
-describe("test_update_dove_fund", () => {
+describe("test_delete_dove_fund", () => {
     // Configure the client to use the local cluster.
     anchor.setProvider(anchor.AnchorProvider.env());
     const program = anchor.workspace.Dove as Program<Dove>;
@@ -21,7 +21,7 @@ describe("test_update_dove_fund", () => {
         user1 = await createUser(program, DEFAULT_LAMPORTS);
     })
 
-    it("updateDoveFund", async () => {
+    it("deleteDoveFund", async () => {
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS);
 
         const doveProject = await createDoveProject(
@@ -136,44 +136,27 @@ describe("test_update_dove_fund", () => {
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
         assert.equal(await getBalance(program, doveFund0), dove_fund0_lamports);
+        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS - dove_fund0_lamports);
         let dove_fund1_lamports = await getBalance(program, doveFund1);
         assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS - dove_fund1_lamports);
 
-        // Update DoveFund0
-        const updated_lamports_by_user0 = 1.3 * web3.LAMPORTS_PER_SOL;
-        doveFund0 = await updateDoveFund(
+        // Delete DoveFund0
+        doveFund0 = await deleteDoveFund(
             doveProject,
-            new BN(updated_lamports_by_user0),
-            0.4,
-            false,
-            false,
-            true,
             program,
             user0,
         );
 
         const dove_fund0_update_date = Date.now();
-        doveFundAccount0 = await program.account.doveFund.fetch(doveFund0);
-        assert.equal(doveFundAccount0.projectPubkey.toString(), doveProject.toString());
-        assert.equal(doveFundAccount0.userPubkey.toString(), user0.publicKey.toString());
-        assert.equal(doveFundAccount0.amountPooled.toNumber(), updated_lamports_by_user0);
-        assert.equal(doveFundAccount0.amountTransferred, 0);
-        assert.equal(Math.round(doveFundAccount0.decision * 100) / 100, 0.4);
-        assert.equal(doveFundAccount0.showsUser, false);
-        assert.equal(doveFundAccount0.showsPooledAmount, false);
-        assert.equal(doveFundAccount0.showsTransferredAmount, true);
-        assert.ok(doveFundAccount0.createdDate.toNumber() - dove_fund0_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveFundAccount0.updateDate.toNumber() - dove_fund0_update_date < ACCEPTABLE_DATE_ERROR);
-
         doveProjectAccount = await program.account.doveProject.fetch(doveProject);
         assert.equal(
             doveProjectAccount.amountPooled.toNumber(),
-            updated_lamports_by_user0 + transferred_lamports_by_user1
+            transferred_lamports_by_user1
         );
         assert.equal(doveProjectAccount.amountTransferred.toNumber(), 0);
         assert.equal(
             Math.round(doveProjectAccount.decision * 100) / 100,
-            Math.round((updated_lamports_by_user0 * 0.4 + transferred_lamports_by_user1 * 0.3) / (updated_lamports_by_user0 + transferred_lamports_by_user1) * 100) / 100
+            Math.round((transferred_lamports_by_user1 * 0.3) / transferred_lamports_by_user1 * 100) / 100
         );
         assert.ok(doveProjectAccount.updateDate.toNumber() - dove_fund0_update_date < ACCEPTABLE_DATE_ERROR);
 
@@ -181,56 +164,28 @@ describe("test_update_dove_fund", () => {
 
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
-        let dove_fund0_updated_lamports = await getBalance(program, doveFund0);
-        assert.equal(await getBalance(program, doveFund0), dove_fund0_updated_lamports);
-        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS - dove_fund0_updated_lamports);
+        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS);
         assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS - dove_fund1_lamports);
 
-        // Update DoveFund1
-        const updated_lamports_by_user1 = 0.9 * web3.LAMPORTS_PER_SOL;
-        doveFund1 = await updateDoveFund(
+        // Delete DoveFund1
+        doveFund1 = await deleteDoveFund(
             doveProject,
-            new BN(updated_lamports_by_user1),
-            0.2,
-            true,
-            true,
-            false,
             program,
             user1,
         );
 
         const dove_fund1_update_date = Date.now();
-        doveFundAccount1 = await program.account.doveFund.fetch(doveFund1);
-        assert.equal(doveFundAccount1.projectPubkey.toString(), doveProject.toString());
-        assert.equal(doveFundAccount1.userPubkey.toString(), user1.publicKey.toString());
-        assert.equal(doveFundAccount1.amountPooled, updated_lamports_by_user1);
-        assert.equal(doveFundAccount1.amountTransferred, 0);
-        assert.equal(Math.round(doveFundAccount1.decision * 100) / 100, 0.2);
-        assert.equal(doveFundAccount1.showsUser, true);
-        assert.equal(doveFundAccount1.showsPooledAmount, true);
-        assert.equal(doveFundAccount1.showsTransferredAmount, false);
-        assert.ok(doveFundAccount1.createdDate.toNumber() - dove_fund1_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveFundAccount1.updateDate.toNumber() - dove_fund1_update_date < ACCEPTABLE_DATE_ERROR);
-
         doveProjectAccount = await program.account.doveProject.fetch(doveProject);
-        assert.equal(
-            doveProjectAccount.amountPooled.toNumber(),
-            updated_lamports_by_user0 + updated_lamports_by_user1
-        );
+        assert.equal(doveProjectAccount.amountPooled.toNumber(), 0);
         assert.equal(doveProjectAccount.amountTransferred.toNumber(), 0);
-        assert.equal(
-            Math.round(doveProjectAccount.decision * 100) / 100,
-            Math.round((updated_lamports_by_user0 * 0.4 + updated_lamports_by_user1 * 0.2) / (updated_lamports_by_user0 + updated_lamports_by_user1) * 100) / 100
-        );
+        assert.equal(Math.round(doveProjectAccount.decision * 100) / 100, 0.5);
         assert.ok(doveProjectAccount.updateDate.toNumber() - dove_fund1_update_date < ACCEPTABLE_DATE_ERROR);
 
         await sleep(1000);
 
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
-        assert.equal(await getBalance(program, doveFund0), dove_fund0_updated_lamports);
-        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS - dove_fund0_updated_lamports);
-        let dove_fund1_updated_lamports = await getBalance(program, doveFund1);
-        assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS - dove_fund1_updated_lamports);
+        assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS);
+        assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS);
     });
 });

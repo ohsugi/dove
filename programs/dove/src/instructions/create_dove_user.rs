@@ -5,7 +5,13 @@ use crate::{
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
-#[instruction(user_name: String)]
+#[instruction(
+    user_name: String,
+    social_media_link: String,
+    evidence_link: String,
+    is_shown: bool,
+)]
+
 pub struct CreateDoveUser<'info> {
     #[account(init,
       payer=user,
@@ -27,7 +33,6 @@ pub fn handler(
     is_shown: bool,
 ) -> Result<()> {
     let dove_user: &mut Account<DoveUser> = &mut ctx.accounts.dove_user;
-    let user: &Signer = &ctx.accounts.user;
 
     require!(
         user_name.len() >= DoveUser::MIN_USER_NAME,
@@ -51,6 +56,7 @@ pub fn handler(
         ErrorCode::TooLongUrl
     );
 
+    dove_user.user_wallet = ctx.accounts.user.key();
     dove_user.user_name = user_name;
     dove_user.social_media_link = social_media_link;
     dove_user.evidence_link = evidence_link;
