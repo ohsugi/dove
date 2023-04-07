@@ -108,5 +108,6 @@ pub fn handler(
 
     dove_project.amount_pooled = dove_project.amount_pooled - old_amount_pooled + new_amount_pooled;
     dove_project.decision = (old_project_amount_pooled as f32 * old_project_decision - old_amount_pooled as f32 * old_decision + new_amount_pooled as f32 * new_decision) / (old_project_amount_pooled - old_amount_pooled + new_amount_pooled) as f32;
+    dove_project.update_date = dove_fund.update_date;
     Ok(())
 }

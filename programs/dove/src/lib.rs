@@ -99,4 +99,8 @@ pub mod dove {
             new_shows_transferred_amount,
         )
     }
+
+    pub fn delete_dove_fund(ctx: Context<DeleteDoveFund>) -> Result<()> {
+        delete_dove_fund::handler(ctx)
+    }
 }

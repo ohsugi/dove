@@ -189,3 +189,25 @@ export const updateDoveFund = async (
     }).signers([user]).rpc();
     return doveFund;
 };
+
+export const deleteDoveFund = async (
+    doveProject: web3.PublicKey,
+    program: Program<Dove>,
+    user: web3.Keypair,
+): Promise<web3.PublicKey> => {
+    const [doveFund, __] = await findAddress(
+        [
+            stringToBytes("dove_fund"),
+            doveProject.toBuffer(),
+            user.publicKey.toBuffer(),
+        ]);
+
+    await program.methods.deleteDoveFund(
+    ).accounts({
+        doveFund,
+        doveProject,
+        user: user.publicKey,
+        systemProgram: SystemProgram.programId,
+    }).signers([user]).rpc();
+    return doveFund;
+};

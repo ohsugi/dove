@@ -90,5 +90,6 @@ pub fn handler(
     dove_project.decision = (current_amount_pooled as f32 * current_decision
         + new_amount_pooled_in_fund as f32 * new_decision_in_fund)
         / (current_amount_pooled + new_amount_pooled_in_fund) as f32;
+    dove_project.update_date = DoveProject::get_now_as_unix_time();
     Ok(())
 }
