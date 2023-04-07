@@ -77,8 +77,9 @@ pub mod dove {
         user_name: String,
         social_link: String,
         evidence_link: String,
+        is_shown: bool,
     ) -> Result<()> {
-        create_dove_user::handler(ctx, user_name, social_link, evidence_link)
+        create_dove_user::handler(ctx, user_name, social_link, evidence_link, is_shown)
     }
 
     pub fn update_dove_fund(

@@ -32,18 +32,33 @@ Therefore, after the DAO is established, infrastructure to lower the participat
 ***
 
 ## Development
-### Make your own branch and setup the enviornment
+### Environment
+#### Solana
+ 1. Run the solana-installer in a console to catchup/apply the latest updates
+  > solana-install update
+ 1. Verify the installation.
+  > solana --version
+
+#### Anchor
+ 1. Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
+  > cargo install --git https://github.com/project-serum/anchor avm --locked --force
+ 1. On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
+  > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
+ 1. Install the latest version of the CLI using avm, and then set it to be the version to use.
+  > avm install latest
+  > avm use latest
+ 1. Verify the installation.
+  > anchor --version
+
+#### Make your own branch and setup the enviornment
  1. Fork the repo to your account and clone the forked repo to your local laptop.
  1. Install the dependency of `@project-serum/anchor`
   > yarn add @project-serum/anchor
  1. Generate your wallet to deploy the program to Solana block chain.
   > solana-keygen new -o ./id.json
  1. Check the address of your wallet.
-  > solana address
   > solana address -k ./id.json
  1. Airdrop at least 6 SOL to deploy the program to the localnet.
-  > solana airdrop 2
-  > solana airdrop 2
   > solana airdrop 2 `YOUR WALLET ADDRESS`
  1. Then build the program with Anchor.
   > anchor build
@@ -69,6 +84,10 @@ Therefore, after the DAO is established, infrastructure to lower the participat
       ```
  1. Rebuild the program again with the updated address.
   > anchor build
+ 1. Run the Solana local validator node for testing in a console window.
+  > solana-test-validator
+ 1. Run Anchor Test by skipping to boot the local validator node in the other console.
+  > anchor test --skip-local-validator
  1. If the error occurred by the inconsistency with the cached key pair, recover/update the cached key pair with the below command and the shown 12-word seed phrase.
   > solana-keygen recover --force
     - The error message could be:
@@ -98,24 +117,6 @@ Therefore, after the DAO is established, infrastructure to lower the participat
   > solana-test-validator
  - Run Anchor Test by skipping to boot the local validator node in the other console.
   > anchor test --skip-local-validator
-
-### Environment
-#### Solana
- - Run the solana-installer in a console to catchup/apply the latest updates
-  > solana-install update
- - Verify the installation.
-  > solana --version
-
-#### Anchor
- - Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
-  > cargo install --git https://github.com/project-serum/anchor avm --locked --force
- - On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
-  > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
- - Install the latest version of the CLI using avm, and then set it to be the version to use.
-  > avm install latest
-  > avm use latest
- - Verify the installation.
-  > anchor --version
 
 ## Consideration
 - The objective of the project-based funding system instead of the specific target country

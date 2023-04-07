@@ -39,15 +39,21 @@ export const createDoveUser = async (
     user_name: string,
     social_link: string,
     evidence_link: string,
+    is_shown: boolean,
     program: Program<Dove>,
-    wallet: anchor.web3.Keypair
-): Promise<anchor.web3.PublicKey> => {
-    const [doveUser, _] = await findAddress([stringToBytes("dove_user"), stringToBytes(user_name)]);
+    user: web3.Keypair
+): Promise<web3.PublicKey> => {
+    const [doveUser, _] = await findAddress([
+        stringToBytes("dove_user"),
+        user.publicKey.toBuffer(),
+        stringToBytes(user_name),
+    ]);
     await program.methods.createDoveUser(
         user_name,
         social_link,
-        evidence_link)
-        .accounts({ doveUser, admin: wallet.publicKey }).signers([wallet]).rpc();
+        evidence_link,
+        is_shown,
+    ).accounts({ doveUser, user: user.publicKey }).signers([user]).rpc();
     return doveUser;
 }
 
