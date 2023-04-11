@@ -3,6 +3,8 @@
 
 <img src="./images/image000.png" width="48%"> <img src="./images/image001.png" width="48%">
 
+<img src="./images/image002.png" width="48%"> <img src="./images/image003.png" width="48%">
+
 ## Background
 There are disasters, wars, and other matters that people wish to avoid beyond borders. Some of them are human-caused disasters that can be (still) delayed or avoided through human intervention, such as acts of invasion or rising temperatures caused by greenhouse effect gases. When these disastrous events (regrettably) occur, people sympathize, and in the spirit of mutual aid, one form of help is to donate money.
 
