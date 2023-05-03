@@ -24,15 +24,15 @@ pub fn handler(ctx: Context<DeleteDoveFund>) -> Result<()> {
 
     require!(
         dove_fund.user_pubkey == user.key(),
-        ErrorCode::InvalidUserToDoveFund
+        ErrorCode::InvalidUserToDeleteDoveFund
     );
 
     require!(
-        dove_fund.amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
+        dove_fund.amount_pooled >= DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
     );
     require!(
-        dove_project.amount_pooled - dove_fund.amount_pooled >= DoveFund::MIN_AMOUNT_TO_POOLED,
+        dove_project.amount_pooled - dove_fund.amount_pooled >= DoveProject::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
     );
 

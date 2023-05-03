@@ -54,24 +54,6 @@ pub mod dove {
         )
     }
 
-    pub fn create_dove_fund(
-        ctx: Context<CreateDoveFund>,
-        amount_pooled: u64,
-        decision: f32,
-        shows_user: bool,
-        shows_pooled_amount: bool,
-        shows_transferred_amount: bool,
-    ) -> Result<()> {
-        create_dove_fund::handler(
-            ctx,
-            amount_pooled,
-            decision,
-            shows_user,
-            shows_pooled_amount,
-            shows_transferred_amount,
-        )
-    }
-
     pub fn create_dove_user(
         ctx: Context<CreateDoveUser>,
         user_name: String,
@@ -90,6 +72,28 @@ pub mod dove {
         is_shown: bool,
     ) -> Result<()> {
         update_dove_user::handler(ctx, user_name, social_link, evidence_link, is_shown)
+    }
+
+    pub fn delete_dove_user(ctx: Context<DeleteDoveUser>) -> Result<()> {
+        delete_dove_user::handler(ctx)
+    }
+
+    pub fn create_dove_fund(
+        ctx: Context<CreateDoveFund>,
+        amount_pooled: u64,
+        decision: f32,
+        shows_user: bool,
+        shows_pooled_amount: bool,
+        shows_transferred_amount: bool,
+    ) -> Result<()> {
+        create_dove_fund::handler(
+            ctx,
+            amount_pooled,
+            decision,
+            shows_user,
+            shows_pooled_amount,
+            shows_transferred_amount,
+        )
     }
 
     pub fn update_dove_fund(
