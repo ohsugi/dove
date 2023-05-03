@@ -38,46 +38,46 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 ## Development
 ### Environment
 #### First Setup
- 1. Follow the below setup guide according to your platform. It would be the perfect guidance.
+1. Follow the below setup guide according to your platform. It would be the perfect guidance.
    - https://github.com/LearnWithArjun/solana-env-setup
- 1. You also can refer to each official installation guide regarding Rust and Solana as follows:
+1. You also can refer to each official installation guide regarding Rust and Solana as follows:
    - https://www.rust-lang.org/tools/install
    - https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool
 
 #### Update Solana
- 1. Run the solana-installer in a console to catchup/apply the latest updates
+1. Run the solana-installer in a console to catchup/apply the latest updates
     > solana-install update
- 1. Verify the installation.
+1. Verify the installation.
     > solana --version
 
 #### Update Anchor
- 1. Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
+1. Install the Anchor version manager that is a tool for using multiple versions of the anchor-cli. It will require the same dependencies as building from source. It is recommended you uninstall the NPM package if you have it installed. Install avm using Cargo. Note this will replace your anchor binary if you had one installed.
     > cargo install --git https://github.com/project-serum/anchor avm --locked --force
- 1. On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
+1. On Linux systems you may need to install additional dependencies if cargo install fails. E.g. on Ubuntu:
     > sudo apt-get update && sudo apt-get upgrade && sudo apt-get install -y pkg-config build-essential libudev-dev
- 1. Install the latest version of the CLI using avm, and then set it to be the version to use.
+1. Install the latest version of the CLI using avm, and then set it to be the version to use.
     > avm install latest<br>
     > avm use latest
- 1. Verify the installation.
+1. Verify the installation.
     > anchor --version
 
 #### Make your own branch and setup the enviornment
- 1. Fork the repo to your account and clone the forked repo to your local laptop.
- 1. Install the dependency of `@project-serum/anchor`
+1. Fork the repo to your account and clone the forked repo to your local laptop.
+1. Install the dependency of `@project-serum/anchor`
     > yarn add @project-serum/anchor
- 1. Generate your wallet to deploy the program to Solana block chain.
+1. Generate your wallet to deploy the program to Solana block chain.
     > solana-keygen new -o ./id.json
- 1. Check the address of your wallet.
+1. Check the address of your wallet.
     > solana address -k ./id.json
- 1. Run the Solana local validator node for testing in the different console window.
+1. Run the Solana local validator node for testing in the different console window.
     > solana-test-validator
- 1. Airdrop at least 6 SOL to deploy the program to the localnet.
+1. Airdrop at least 6 SOL to deploy the program to the localnet.
     > solana airdrop 2 `YOUR WALLET ADDRESS`
- 1. Then build the program with Anchor.
+1. Then build the program with Anchor.
     > anchor build
- 1. Check the Program Account address.
+1. Check the Program Account address.
     > solana address -k ./target/deploy/dove-keypair.json
- 1. Copy & paste your Program Account addresses. E.g., if the address was `HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN`, you should update the addresses in the below three parts of the files.
+1. Copy & paste your Program Account addresses. E.g., if the address was `HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN`, you should update the addresses in the below three parts of the files.
     - ./Anchor.toml
         
       ```
@@ -98,11 +98,11 @@ Therefore, after the DAO is established, infrastructure to lower the participati
       pub mod dove {
       ```
       
- 1. Rebuild the program again with the updated address.
+1. Rebuild the program again with the updated address.
     > anchor build
- 1. Run Anchor Test by skipping to boot the local validator node in the other console.
+1. Run Anchor Test by skipping to boot the local validator node in the other console.
     > anchor test --skip-local-validator
- 1. If the error occurred by the inconsistency with the cached key pair, recover/update the cached key pair with the below command and the shown 12-word seed phrase.
+1. If the error occurred by the inconsistency with the cached key pair, recover/update the cached key pair with the below command and the shown 12-word seed phrase.
     > solana-keygen recover --force
     - The error message could be:
     
@@ -129,9 +129,9 @@ Therefore, after the DAO is established, infrastructure to lower the participati
     - In this case `12-word seed phrase` would be `coyote twin dish round acid talk marble arch stuff review turn unique`.
 
 ### Test on the Localnet
- - Run the Solana local validator node for testing in a console window.
+1. Run the Solana local validator node for testing in a console window.
     > solana-test-validator
- - Run Anchor Test by skipping to boot the local validator node in the other console.
+1. Run Anchor Test by skipping to boot the local validator node in the other console.
     > anchor test --skip-local-validator
 
 ## Consideration
@@ -200,7 +200,7 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - **update_date**: i64: Fund update date (as Unix Time)
 
 - **DoveUser**
-  - **user_wallet**: Pubkey: Wallet pubkey
+  - **user_pubkey**: Pubkey: Wallet pubkey
   - **user_name**: String: User name
   - **social_media_link**: String: Social media links of the user
   - **evidence_link**: String: HTML link to prove own identity

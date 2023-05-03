@@ -77,11 +77,27 @@ export const updateDoveUser = async (
     return doveUser;
 };
 
+export const deleteDoveUser = async (
+    program: Program<Dove>,
+    user: web3.Keypair
+): Promise<web3.PublicKey> => {
+    const [doveUser, _] = await findAddress([
+        stringToBytes("dove_user"),
+        user.publicKey.toBuffer(),
+    ]);
+    await program.methods.deleteDoveUser(
+    ).accounts({
+        doveUser,
+        user: user.publicKey,
+        systemProgram: SystemProgram.programId
+    }).signers([user]).rpc();
+    return doveUser;
+};
+
 export const getBalance = async (
     program: Program<Dove>,
     wallet: web3.PublicKey,
 ): Promise<number> => {
-    //    return await program.provider.connection.getBalance(wallet);
     return (await program.account.doveProject.getAccountInfo(wallet)).lamports
 };
 

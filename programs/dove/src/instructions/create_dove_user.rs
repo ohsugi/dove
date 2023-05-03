@@ -61,7 +61,7 @@ pub fn handler(
         ErrorCode::TooLongUrl
     );
 
-    dove_user.user_wallet = ctx.accounts.user.key();
+    dove_user.user_pubkey = ctx.accounts.user.key();
     dove_user.user_name = user_name;
     dove_user.social_media_link = social_media_link;
     dove_user.evidence_link = evidence_link;

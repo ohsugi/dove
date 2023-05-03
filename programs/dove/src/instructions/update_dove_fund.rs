@@ -34,7 +34,7 @@ pub fn handler(
 
     require!(
         dove_fund.user_pubkey == user.key(),
-        ErrorCode::InvalidUserToDoveFund
+        ErrorCode::InvalidUserToUpdateDoveFund
     );
 
     require!(

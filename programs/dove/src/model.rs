@@ -112,7 +112,7 @@ impl SizeDef for DoveFund {
 
 #[account]
 pub struct DoveUser {
-    pub user_wallet: Pubkey,       // Wallet pubkey
+    pub user_pubkey: Pubkey,       // Wallet pubkey
     pub user_name: String,         // User name
     pub social_media_link: String, // Social media links of the user
     pub evidence_link: String,     // HTML link to prove own identity
@@ -132,7 +132,7 @@ impl DoveUser {
 
 impl SizeDef for DoveUser {
     const SIZE: usize = DoveUser::HEADER_SIZE // Header
-        + DoveUser::PUBKEY_SIZE    // user_wallet
+        + DoveUser::PUBKEY_SIZE    // user_pubkey
         + DoveUser::VEC_HEADER_SIZE + DoveUser::MAX_USER_NAME * DoveUser::STRING_SIZE // user_name
         + DoveUser::VEC_HEADER_SIZE + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // social_media_links
         + DoveUser::VEC_HEADER_SIZE + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // evidence_link

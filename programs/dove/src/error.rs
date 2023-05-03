@@ -96,6 +96,9 @@ pub enum ErrorCode {
     #[msg("DoveFund has InsufficientFunds")]
     InsufficientFundsInDoveFund,
 
+    #[msg("DoveUser has InsufficientFunds")]
+    InsufficientFundsInDoveUser,
+
     #[msg("Invalid amount pooled in Project")]
     InvalidAmountPooledInProject,
 
@@ -108,8 +111,14 @@ pub enum ErrorCode {
     #[msg("No change applied to the Dove Project")]
     NoChangeToDoveProject,
 
-    #[msg("Invalid User to Dove Fund.")]
-    InvalidUserToDoveFund,
+    #[msg("Invalid User to update Dove Fund.")]
+    InvalidUserToUpdateDoveFund,
+
+    #[msg("Invalid User to delete Dove Fund.")]
+    InvalidUserToDeleteDoveFund,
+
+    #[msg("Invalid User to delete Dove User.")]
+    InvalidUserToDeleteDoveUser,
 
     #[msg("Debug Message")]
     DebugError,
