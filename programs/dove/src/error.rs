@@ -25,7 +25,7 @@ pub enum ErrorCode {
     TooLongDescription,
 
     #[msg("Invalid Is Effective flag.")]
-    InvalidIsEffective,
+    InvalidIsLocked,
 
     #[msg("Too long Video link.")]
     TooLongVideoLink,
@@ -90,6 +90,9 @@ pub enum ErrorCode {
     #[msg("Invalid User to Update Dove Project.")]
     InvalidUserToUpdateDoveProject,
 
+    #[msg("Invalid User to Pull Dove Project.")]
+    InvalidUserToPullDoveProject,
+
     #[msg("Solana transaction failed.")]
     SolanaTransationFailed,
 
@@ -119,6 +122,21 @@ pub enum ErrorCode {
 
     #[msg("Invalid User to delete Dove User.")]
     InvalidUserToDeleteDoveUser,
+
+    #[msg("Dove Project is locked.")]
+    DoveProjectIsLocked,
+
+    #[msg("Pull from Dove Project is not allowed.")]
+    PullDoveProjectIsNotAllowed,
+
+    #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
+    InconsistentAmountPooled,
+
+    #[msg("Inconsistent decision between checked decision and Dove Project's decision.")]
+    InconsistentDecision,
+
+    #[msg("Inconsistent update date between checked update date and Dove Project's update date.")]
+    InconsistentUpdateDate,
 
     #[msg("Debug Message")]
     DebugError,

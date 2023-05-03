@@ -135,6 +135,15 @@ Therefore, after the DAO is established, infrastructure to lower the participati
     > anchor test --skip-local-validator
 
 ## Consideration
+- Strategy to pull the pooled amount from DoveProject.
+  1. The admin needs actively check the privilege and pull the amount from DoveProject by following steps.
+  1. Fetch all DoveFund regarding the targeted DoveProject to calculate three parameters(amount_pooled, decision, update_date).
+  1. Check the consistency of those three parameters with the targeted DoveProject.
+  1. If consistent and the decision is larger than the threshold (currently 50% = 0.5), the DoveProject will be marked to pull the amount from the DoveFund and record its last_date_transferred property with the latest unix time.
+  1. If the targeted DoveProject is marked, the admin will ask each DoveFund to pull the amount with the specific instruction.
+  1. Each DoveFund then compares its last_date_transferred with the DoveProject if that is older than the DoveProject one, the amount pooled will be transferred to the admin and updated last_date_transferred property. That instruction also will update DoveProject's amount_pooled property.
+  1. The admin will do the instruction among all fetched DoveFund until the pooled amount is not zero (some funds are remaining in one or more DoveFund) so that the admin can pull all amounts from the DoveFund.
+  1. During this process, is_locked flag might be used to lock any operations to the DoveProject and the related DoveFund.
 - The objective of the project-based funding system instead of the specific target country
   - 受取相手のWalletのPubkeyがわからないため、自己申告制にしてWalletのPubkeyを登録してもらう
   - アイデア、ユースケース、平和に興味の中心があるため、政治信条的には中立的立場で運用したい
@@ -157,6 +166,7 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 
 ## Architecture
 - Frontend
+  - Flutter
   - Node.js
   - React
 - Backend
@@ -171,7 +181,7 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 
 ## Account Specification
 - **DoveProject**
-  - **admin_wallet**: Pubkey: Admin's Wallet
+  - **admin_pubkey**: Pubkey: Admin Wallet pubkey
   - **evidence_link**: String: Hyper link to show the other users to make sure the admin's identity
   - **project_name**: String: Project Name
   - **target_country_code**: String: Target Country code (defined in the iso_country::Country)
@@ -179,7 +189,7 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - **description**: String: Project description
   - **created_date**: i64: Project created date (unix-time stap)
   - **update_date**: i64: Project last update date (unix-time stap)
-  - **is_effective**: bool: Project Effective flag
+  - **is_locked**: bool: Project Effective flag
   - **is_deleted**: bool: Project Delete flag 
   - **video_link**: String: Video link to describe the project as string (intended Youtube)
   - **amount_pooled**: u64: The current pooled amount (as Lamports)

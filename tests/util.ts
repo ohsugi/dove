@@ -142,7 +142,7 @@ export const updateDoveProject = async (
     opponent_country_name: string,
     description: string,
     video_link: string,
-    is_effective: boolean,
+    is_locked: boolean,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
@@ -153,7 +153,27 @@ export const updateDoveProject = async (
         opponent_country_name,
         description,
         video_link,
-        is_effective,
+        is_locked,
+    ).accounts({
+        doveProject,
+        admin: admin.publicKey,
+    }).signers([admin]).rpc();
+
+    return doveProject;
+};
+
+export const pullDoveProject = async (
+    doveProject: web3.PublicKey,
+    checked_amount_pooled: number,
+    checked_decision: number,
+    checked_update_date: number,
+    program: Program<Dove>,
+    admin: web3.Keypair,
+): Promise<web3.PublicKey> => {
+    await program.methods.pullDoveProject(
+        checked_amount_pooled,
+        checked_decision,
+        checked_update_date,
     ).accounts({
         doveProject,
         admin: admin.publicKey,
