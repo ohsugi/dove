@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Program, web3 } from "@project-serum/anchor";
 import { Dove } from "../target/types/dove";
-import { createUser, createDoveUser, updateDoveUser, deleteDoveUser, getBalance, sleep } from "./util";
+import { createUser, createDoveUser, updateDoveUser, deleteDoveUser, getBalance, sleep, equalDateTime, getNow } from "./util";
 
 import assert from 'assert';
 
@@ -10,7 +10,6 @@ describe("test_dove_user", () => {
     anchor.setProvider(anchor.AnchorProvider.env());
     const program = anchor.workspace.Dove as Program<Dove>;
     const DEFAULT_LAMPORTS: number = 4 * web3.LAMPORTS_PER_SOL;
-    const ACCEPTABLE_DATE_ERROR = 10000000;
 
     let user0: web3.Keypair;
     let user1: web3.Keypair;
@@ -31,7 +30,7 @@ describe("test_dove_user", () => {
             program,
             user0,
         );
-        const dove_user_created_date = Date.now();
+        const dove_user_created_date = getNow();
         const doveUserAccount = await program.account.doveUser.fetch(doveUser);
         assert.equal(doveUserAccount.userPubkey.toString(), user0.publicKey.toString());
         assert.equal(doveUserAccount.userName, "User 0");
@@ -40,8 +39,8 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.isShown, true);
         assert.equal(doveUserAccount.amountPooled, 0);
         assert.equal(doveUserAccount.amountTransferred, 0);
-        assert.ok(doveUserAccount.createdDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveUserAccount.updateDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
+        assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
+        assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
     });
 
     it("updateDoveUser", async () => {
@@ -53,7 +52,7 @@ describe("test_dove_user", () => {
             program,
             user1,
         );
-        const dove_user_created_date = Date.now();
+        const dove_user_created_date = getNow();
         let doveUserAccount = await program.account.doveUser.fetch(doveUser);
         assert.equal(doveUserAccount.userPubkey.toString(), user1.publicKey.toString());
         assert.equal(doveUserAccount.userName, "User 1");
@@ -62,8 +61,8 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.isShown, true);
         assert.equal(doveUserAccount.amountPooled, 0);
         assert.equal(doveUserAccount.amountTransferred, 0);
-        assert.ok(doveUserAccount.createdDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveUserAccount.updateDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
+        assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
+        assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
 
         doveUser = await updateDoveUser(
             "User 1 updated",
@@ -74,7 +73,7 @@ describe("test_dove_user", () => {
             user1,
         );
 
-        const dove_user_updated_date = Date.now();
+        const dove_user_updated_date = getNow();
         doveUserAccount = await program.account.doveUser.fetch(doveUser);
         assert.equal(doveUserAccount.userPubkey.toString(), user1.publicKey.toString());
         assert.equal(doveUserAccount.userName, "User 1 updated");
@@ -83,8 +82,8 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.isShown, false);
         assert.equal(doveUserAccount.amountPooled, 0);
         assert.equal(doveUserAccount.amountTransferred, 0);
-        assert.ok(doveUserAccount.createdDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveUserAccount.updateDate.toNumber() - dove_user_updated_date < ACCEPTABLE_DATE_ERROR);
+        assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
+        assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_updated_date));
     });
 
     it("deleteDoveUser", async () => {
@@ -96,7 +95,7 @@ describe("test_dove_user", () => {
             program,
             user2,
         );
-        const dove_user_created_date = Date.now();
+        const dove_user_created_date = getNow();
         let doveUserAccount = await program.account.doveUser.fetch(doveUser);
         assert.equal(doveUserAccount.userPubkey.toString(), user2.publicKey.toString());
         assert.equal(doveUserAccount.userName, "User 2");
@@ -105,8 +104,8 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.isShown, false);
         assert.equal(doveUserAccount.amountPooled, 0);
         assert.equal(doveUserAccount.amountTransferred, 0);
-        assert.ok(doveUserAccount.createdDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.ok(doveUserAccount.updateDate.toNumber() - dove_user_created_date < ACCEPTABLE_DATE_ERROR);
+        assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
+        assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
 
         let dove_user_lamports = await getBalance(program, doveUser);
         assert.equal(await getBalance(program, user2.publicKey), DEFAULT_LAMPORTS - dove_user_lamports);

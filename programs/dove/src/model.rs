@@ -20,8 +20,19 @@ pub trait SizeDef {
     const MAX_PERCENTAGE: f32 = 1.0;
     const SIZE: usize = 0;
 
+    const ACCEPTABLE_AMOUNT_ERROR: u64 = 1000;
+    const ACCEPTABLE_DATE_ERROR: u64 = 1000000;
+
     fn get_now_as_unix_time() -> i64 {
         return Clock::get().unwrap().unix_timestamp;
+    }
+
+    fn almost_equal_amount_pooled(amount1: u64, amount2: u64) -> bool {
+        return amount1.abs_diff(amount2) < Self::ACCEPTABLE_AMOUNT_ERROR;
+    }
+
+    fn almost_equal_date(date1: i64, date2: i64) -> bool {
+        return date1.abs_diff(date2) < Self::ACCEPTABLE_DATE_ERROR;
     }
 }
 
@@ -54,9 +65,6 @@ impl DoveProject {
     pub const MIN_DESCRIPTION: usize = 128;
     pub const MAX_DESCRIPTION: usize = 1024;
     pub const DECISION_THRESHOLD: f32 = 0.50;
-    pub const ACCEPTABLE_AMOUNT_ERROR: u64 = 1;
-    pub const ACCEPTABLE_DECISION_ERRROR: f32 = 0.01;
-    pub const ACCEPTABLE_DATE_ERROR: i64 = 10000000;
 }
 
 impl SizeDef for DoveProject {
