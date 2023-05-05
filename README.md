@@ -137,8 +137,8 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 ## Consideration
 - Strategy to pull the pooled amount from DoveProject.
   1. The admin needs actively check the privilege and pull the amount from DoveProject by following steps.
-  1. Fetch all DoveFund regarding the targeted DoveProject to calculate three parameters(amount_pooled, decision, update_date).
-  1. Check the consistency of those three parameters with the targeted DoveProject.
+  1. Fetch all DoveFund regarding the targeted DoveProject to calculate parameters of amount_pooled, and update_date.
+  1. Check the consistency of those parameters with the targeted DoveProject.
   1. If consistent and the decision is larger than the threshold (currently 50% = 0.5), the DoveProject will be marked to pull the amount from the DoveFund and record its last_date_transferred property with the latest unix time.
   1. If the targeted DoveProject is marked, the admin will ask each DoveFund to pull the amount with the specific instruction.
   1. Each DoveFund then compares its last_date_transferred with the DoveProject if that is older than the DoveProject one, the amount pooled will be transferred to the admin and updated last_date_transferred property. That instruction also will update DoveProject's amount_pooled property.

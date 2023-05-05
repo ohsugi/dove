@@ -132,9 +132,6 @@ pub enum ErrorCode {
     #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
     InconsistentAmountPooled,
 
-    #[msg("Inconsistent decision between checked decision and Dove Project's decision.")]
-    InconsistentDecision,
-
     #[msg("Inconsistent update date between checked update date and Dove Project's update date.")]
     InconsistentUpdateDate,
 

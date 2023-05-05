@@ -7,7 +7,6 @@ use anchor_lang::prelude::*;
 #[derive(Accounts)]
 #[instruction(
     checked_amount_pooled: u64, // The checked pooled amount (as Lamports)
-    checked_decision: f32,      // The checked decision percentage by fetching all DoveFund
     checked_update_date: i64,   // The checked update date by fetching all DoveFund
 )]
 
@@ -21,7 +20,6 @@ pub struct PullDoveProject<'info> {
 pub fn handler(
     ctx: Context<PullDoveProject>,
     checked_amount_pooled: u64, // The checked pooled amount (as Lamports)
-    checked_decision: f32,      // The checked decision percentage by fetching all DoveFund
     checked_update_date: i64,   // The checked update date by fetching all DoveFund
 ) -> Result<()> {
     let project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
@@ -35,17 +33,12 @@ pub fn handler(
 
     // If the checked values are inconsistent with the calculated values with the fetched from all DoveFund PDAs.
     require!(
-        project.amount_pooled - checked_amount_pooled < DoveProject::ACCEPTABLE_AMOUNT_ERROR,
+        DoveProject::almost_equal_amount_pooled(project.amount_pooled, checked_amount_pooled),
         ErrorCode::InconsistentAmountPooled
     );
 
     require!(
-        project.decision - checked_decision < DoveProject::ACCEPTABLE_DECISION_ERRROR,
-        ErrorCode::InconsistentDecision
-    );
-
-    require!(
-        project.update_date - checked_update_date < DoveProject::ACCEPTABLE_DATE_ERROR,
+        DoveProject::almost_equal_date(project.update_date, checked_update_date),
         ErrorCode::InconsistentUpdateDate
     );
 

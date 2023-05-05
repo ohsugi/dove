@@ -3,6 +3,15 @@ import { Program, web3, utils } from "@project-serum/anchor";
 import { SystemProgram } from "@solana/web3.js";
 import { Dove } from "../target/types/dove";
 
+const ACCEPTABLE_DATE_ERROR = 1000000;
+export const equalDateTime = (dateTime1: number, dateTime2: number): boolean => {
+    return Math.abs(dateTime1 - dateTime2) < ACCEPTABLE_DATE_ERROR;
+}
+
+export const getNow = (): number => {
+    return Math.round(Date.now() / 1000);
+};
+
 export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 export const stringToBytes = (str: string) => {
@@ -165,14 +174,12 @@ export const updateDoveProject = async (
 export const pullDoveProject = async (
     doveProject: web3.PublicKey,
     checked_amount_pooled: number,
-    checked_decision: number,
     checked_update_date: number,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
     await program.methods.pullDoveProject(
         checked_amount_pooled,
-        checked_decision,
         checked_update_date,
     ).accounts({
         doveProject,
