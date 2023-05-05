@@ -36,7 +36,7 @@ describe("test_create_dove_fund", () => {
         );
         const dove_project_created_date = Date.now();
         let doveProjectAccount = await program.account.doveProject.fetch(doveProject);
-        assert.equal(doveProjectAccount.adminWallet.toString(), admin.publicKey.toString());
+        assert.equal(doveProjectAccount.adminPubkey.toString(), admin.publicKey.toString());
         assert.equal(doveProjectAccount.evidenceLink, "");
         assert.equal(doveProjectAccount.projectName, "Test Porject 3");
         assert.equal(doveProjectAccount.targetCountryCode, "JP");
@@ -44,7 +44,7 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveProjectAccount.description, "This is the test dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
         assert.ok(doveProjectAccount.createdDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
         assert.ok(doveProjectAccount.updateDate.toNumber() - dove_project_created_date < ACCEPTABLE_DATE_ERROR);
-        assert.equal(doveProjectAccount.isEffective, true);
+        assert.equal(doveProjectAccount.isLocked, false);
         assert.equal(doveProjectAccount.videoLink, "");
         assert.equal(doveProjectAccount.amountPooled, 0);
         assert.equal(doveProjectAccount.amountTransferred, 0);

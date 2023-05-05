@@ -83,7 +83,7 @@ pub fn handler(
         ErrorCode::TooLongVideoLink
     );
 
-    project.admin_wallet = *ctx.accounts.admin.key;
+    project.admin_pubkey = *ctx.accounts.admin.key;
     project.evidence_link = evidence_link;
     project.project_name = project_name;
     project.target_country_code = target_country.unwrap().to_string();
@@ -96,7 +96,7 @@ pub fn handler(
 
     project.created_date = DoveProject::get_now_as_unix_time();
     project.update_date = project.created_date;
-    project.is_effective = true;
+    project.is_locked = false;
     project.video_link = video_link;
     project.amount_pooled = 0;
     project.amount_transferred = 0;

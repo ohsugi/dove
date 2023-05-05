@@ -15,7 +15,7 @@ use anchor_lang::prelude::*;
 pub struct UpdateDoveUser<'info> {
     #[account(mut)]
     pub dove_user: Account<'info, DoveUser>,
-    #[account(mut)]
+    #[account()]
     pub user: Signer<'info>,
 }
 
