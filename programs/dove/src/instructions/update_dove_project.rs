@@ -13,12 +13,12 @@ use iso_country::Country;
     opponent_country_name: String,
     description: String,
     video_link: String,
-    is_effective: bool,
+    is_locked: bool,
 )]
 pub struct UpdateDoveProject<'info> {
     #[account(mut)]
     pub dove_project: Account<'info, DoveProject>,
-    #[account(mut)]
+    #[account()]
     pub admin: Signer<'info>,
 }
 
@@ -30,12 +30,12 @@ pub fn handler(
     opponent_country_name: String,
     description: String,
     video_link: String,
-    is_effective: bool,
+    is_locked: bool,
 ) -> Result<()> {
     let project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
 
     require!(
-        project.admin_wallet == ctx.accounts.admin.key(),
+        project.admin_pubkey == ctx.accounts.admin.key(),
         ErrorCode::InvalidUserToUpdateDoveProject
     );
 
@@ -90,7 +90,7 @@ pub fn handler(
             || (project.opponent_country_code != opponent_country.unwrap().to_string())
             || (project.description != description)
             || (project.video_link != video_link)
-            || (project.is_effective != is_effective),
+            || (project.is_locked != is_locked),
         ErrorCode::NoChangeToDoveProject
     );
 
@@ -106,7 +106,7 @@ pub fn handler(
     project.amount_transferred = 0;
 
     project.update_date = DoveProject::get_now_as_unix_time();
-    project.is_effective = is_effective;
+    project.is_locked = is_locked;
     project.video_link = video_link;
     Ok(())
 }

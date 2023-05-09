@@ -38,6 +38,11 @@ pub fn handler(
     );
 
     require!(
+        dove_fund.project_pubkey == dove_project.key(),
+        ErrorCode::InvalidProjectToUpdateDoveFund
+    );
+
+    require!(
         new_amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
     );

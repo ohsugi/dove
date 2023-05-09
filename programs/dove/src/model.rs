@@ -18,17 +18,27 @@ pub trait SizeDef {
     const MAX_AMOUNT_TO_TRANSFER: u64 = 18400000000000000000;
     const MIN_PERCENTAGE: f32 = 0.0;
     const MAX_PERCENTAGE: f32 = 1.0;
-
     const SIZE: usize = 0;
+
+    const ACCEPTABLE_AMOUNT_ERROR: u64 = 1000;
+    const ACCEPTABLE_DATE_ERROR: u64 = 1000000;
 
     fn get_now_as_unix_time() -> i64 {
         return Clock::get().unwrap().unix_timestamp;
+    }
+
+    fn almost_equal_amount_pooled(amount1: u64, amount2: u64) -> bool {
+        return amount1.abs_diff(amount2) < Self::ACCEPTABLE_AMOUNT_ERROR;
+    }
+
+    fn almost_equal_date(date1: i64, date2: i64) -> bool {
+        return date1.abs_diff(date2) < Self::ACCEPTABLE_DATE_ERROR;
     }
 }
 
 #[account]
 pub struct DoveProject {
-    pub admin_wallet: Pubkey,          // Admin's Wallet
+    pub admin_pubkey: Pubkey,          // Admin's Wallet
     pub evidence_link: String,         // HTML link to prove Admin's identity
     pub project_name: String,          // Project Name
     pub target_country_code: String,   // Target country (ISO shortcode)
@@ -36,7 +46,7 @@ pub struct DoveProject {
     pub description: String,           // Description and the usage of the transferred Solana
     pub created_date: i64,             // Project craetion date (as Unix Time)
     pub update_date: i64,              // Project update date (as Unix Time)
-    pub is_effective: bool,            // If project is effective
+    pub is_locked: bool,               // If project is locked
     pub video_link: String,            // Video link to describe the project (intended youtube link)
     pub amount_pooled: u64,            // The current pooled amount (as Lamports)
     pub amount_transferred: u64,       // The amount transferred so far (as Lamports)
@@ -54,11 +64,12 @@ impl DoveProject {
     pub const MAX_COUNTRY_CODE: usize = 2;
     pub const MIN_DESCRIPTION: usize = 128;
     pub const MAX_DESCRIPTION: usize = 1024;
+    pub const DECISION_THRESHOLD: f32 = 0.50;
 }
 
 impl SizeDef for DoveProject {
     const SIZE: usize = DoveProject::HEADER_SIZE // Header
-        + DoveProject::PUBKEY_SIZE               // admin_wallet
+        + DoveProject::PUBKEY_SIZE               // admin_pubkey
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_ADMIN_NAME * DoveProject::STRING_SIZE   // admin_name
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // evidence_link
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_PROJECT_NAME * DoveProject::STRING_SIZE // project_name
@@ -67,7 +78,7 @@ impl SizeDef for DoveProject {
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_DESCRIPTION * DoveProject::STRING_SIZE  // description
         + DoveProject::I64_SZIE       // created_date
         + DoveProject::I64_SZIE       // update_date
-        + DoveProject::BOOL_SIZE      // is_effective
+        + DoveProject::BOOL_SIZE      // is_locked
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // video_link
         + DoveProject::U64_SIZE       // amount_pooled
         + DoveProject::U64_SIZE       // amount_transferred
