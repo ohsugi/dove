@@ -185,8 +185,22 @@ export const pullDoveProject = async (
         doveProject,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
-
     return doveProject;
+};
+
+export const pullDoveFund = async (
+    doveFund: web3.PublicKey,
+    doveProject: web3.PublicKey,
+    program: Program<Dove>,
+    admin: web3.Keypair,
+): Promise<web3.PublicKey> => {
+    await program.methods.pullDoveFund(
+    ).accounts({
+        doveFund,
+        doveProject,
+        admin: admin.publicKey,
+    }).signers([admin]).rpc();
+    return doveFund;
 };
 
 export const createDoveFund = async (

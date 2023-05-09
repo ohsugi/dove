@@ -129,11 +129,32 @@ pub enum ErrorCode {
     #[msg("Pull from Dove Project is not allowed.")]
     PullDoveProjectIsNotAllowed,
 
+    #[msg("Pull from Dove Fund is not allowed.")]
+    PullDoveFundIsNotAllowed,
+
     #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
     InconsistentAmountPooled,
 
     #[msg("Inconsistent update date between checked update date and Dove Project's update date.")]
     InconsistentUpdateDate,
+
+    #[msg("Invalid project to delete DoveFund.")]
+    InvalidProjectToDeleteDoveFund,
+
+    #[msg("Invalid project to pull DoveFund.")]
+    InvalidProjectToPullDoveFund,
+
+    #[msg("Invalid project to update DoveFund.")]
+    InvalidProjectToUpdateDoveFund,
+
+    #[msg("Invalid admin to pull DoveFund.")]
+    InvalidAdminToPullDoveFund,
+
+    #[msg("Dove Project is not locked when pulling DoveFund.")]
+    DoveProjectIsNotLockedWhenPullingDoveFund,
+
+    #[msg("Dove Fund was already transferred.")]
+    DoveFundWasAlreadyTransferred,
 
     #[msg("Debug Message")]
     DebugError,

@@ -62,6 +62,10 @@ pub mod dove {
         pull_dove_project::handler(ctx, checked_amount_pooled, checked_update_date)
     }
 
+    pub fn pull_dove_fund(ctx: Context<PullDoveFund>) -> Result<()> {
+        pull_dove_fund::handler(ctx)
+    }
+
     pub fn create_dove_user(
         ctx: Context<CreateDoveUser>,
         user_name: String,

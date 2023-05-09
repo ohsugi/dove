@@ -28,6 +28,11 @@ pub fn handler(ctx: Context<DeleteDoveFund>) -> Result<()> {
     );
 
     require!(
+        dove_fund.project_pubkey == dove_project.key(),
+        ErrorCode::InvalidProjectToDeleteDoveFund
+    );
+
+    require!(
         dove_fund.amount_pooled >= DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
     );
