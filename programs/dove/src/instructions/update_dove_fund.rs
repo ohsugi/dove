@@ -84,7 +84,7 @@ pub fn handler(
                 user.to_account_info(),
                 dove_fund.to_account_info(),
             ]
-        );
+        )?;
 
     // Withdraw the amount pooled from the DoveFund
     } else if dove_fund.amount_pooled > new_amount_pooled {

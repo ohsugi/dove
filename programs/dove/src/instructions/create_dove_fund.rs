@@ -65,7 +65,7 @@ pub fn handler(
             ctx.accounts.user.to_account_info(),
             dove_fund.to_account_info()
         ]
-    );
+    )?;
 
     dove_fund.amount_pooled = amount_pooled;
     dove_fund.amount_transferred = 0;        
