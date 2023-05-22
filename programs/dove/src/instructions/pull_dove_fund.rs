@@ -2,7 +2,7 @@ use crate::{
     error::ErrorCode,
     model::{DoveFund, DoveProject, SizeDef},
 };
-use anchor_lang::{accounts::account::Account, prelude::*, solana_program::program::invoke_signed};
+use anchor_lang::{accounts::account::Account, prelude::*};
 
 #[derive(Accounts)]
 #[instruction()]
@@ -52,23 +52,11 @@ pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
         ErrorCode::DoveFundWasAlreadyTransferred
     );
 
-    // Transfer Solana to dove_fund_account from the user wallet
+    // Transfer Solana to dove_fund_account from the admin wallet
     let pooled_amount = dove_fund.amount_pooled;
-    let ix = anchor_lang::solana_program::system_instruction::transfer(
-        &dove_fund.key(),
-        &admin.key(),
-        pooled_amount,
-    );
-    invoke_signed(
-        &ix,
-        &[dove_fund.to_account_info(), admin.to_account_info()],
-        &[&[
-            b"dove_fund".as_ref(),
-            dove_project.key().as_ref(),
-            dove_fund.user_pubkey.as_ref(),
-            dove_fund.bump.to_be_bytes().as_ref(),
-        ]],
-    )?;
+    **dove_fund.to_account_info().try_borrow_mut_lamports()? -= pooled_amount;
+    **admin.to_account_info().try_borrow_mut_lamports()? += pooled_amount;
+
     dove_fund.amount_transferred += pooled_amount;
     dove_fund.amount_pooled = 0;
     let now_date: i64 = anchor_lang::solana_program::clock::Clock::get()?.unix_timestamp;
