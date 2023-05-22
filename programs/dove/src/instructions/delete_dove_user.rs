@@ -30,12 +30,5 @@ pub fn handler(ctx: Context<DeleteDoveUser>) -> Result<()> {
     );
 
     // Deleting DoveUser will only removes the information for that user and pulls back the stored Lamports to the user's wallet, and no direct effect on DoveProject or DoveFund.
-    let all_amount: u64 = **dove_user.to_account_info().lamports.borrow();
-    require!(
-        all_amount > DoveUser::MIN_AMOUNT_TO_POOLED,
-        ErrorCode::InsufficientFundsInDoveUser
-    );
-    **dove_user.to_account_info().try_borrow_mut_lamports()? -= all_amount;
-    **user.to_account_info().try_borrow_mut_lamports()? += all_amount;
     Ok(())
 }

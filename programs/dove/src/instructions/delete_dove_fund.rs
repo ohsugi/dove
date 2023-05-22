@@ -46,14 +46,6 @@ pub fn handler(ctx: Context<DeleteDoveFund>) -> Result<()> {
         dove_fund.amount_transferred = dove_fund.amount_pooled;
     }
 
-    let all_amount: u64 = **dove_fund.to_account_info().lamports.borrow();
-    require!(
-        all_amount > DoveFund::MIN_AMOUNT_TO_POOLED,
-        ErrorCode::InsufficientFundsInDoveFund
-    );
-    **dove_fund.to_account_info().try_borrow_mut_lamports()? -= all_amount;
-    **user.to_account_info().try_borrow_mut_lamports()? += all_amount;
-
     let old_amount_pooled: u64 = dove_fund.amount_pooled;
     dove_fund.amount_pooled = 0;
     let old_decision: f32 = dove_fund.decision;
