@@ -39,6 +39,8 @@ pub fn handler(
         ErrorCode::InvalidUserToUpdateDoveProject
     );
 
+    require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);
+
     require!(
         evidence_link.len() <= DoveProject::MAX_HYPERLINK,
         ErrorCode::TooLongEvidenceLink

@@ -302,6 +302,17 @@ describe("test_pull_dove_fund", () => {
             assert.ok(e.message.includes("InconsistentUpdateDate"));
         }
 
+        try {
+            await pullDoveFund(
+                doveFund0,
+                doveProject,
+                program,
+                admin,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsNotLocked"));
+        }
+
         const pull_dove_project_date = getNow();
         const pull_dove_project = await pullDoveProject(
             doveProject,

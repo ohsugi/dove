@@ -42,6 +42,8 @@ pub fn handler(
         ErrorCode::InvalidProjectToUpdateDoveFund
     );
 
+    require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
+
     require!(
         new_amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled

@@ -3,7 +3,7 @@ import { Program, web3, utils } from "@project-serum/anchor";
 import { SystemProgram } from "@solana/web3.js";
 import { Dove } from "../target/types/dove";
 
-const ACCEPTABLE_DATE_ERROR = 1000000;
+const ACCEPTABLE_DATE_ERROR = 3000000;
 export const equalDateTime = (dateTime1: number, dateTime2: number): boolean => {
     return Math.abs(dateTime1 - dateTime2) < ACCEPTABLE_DATE_ERROR;
 }

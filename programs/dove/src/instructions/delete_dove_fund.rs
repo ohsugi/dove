@@ -32,6 +32,8 @@ pub fn handler(ctx: Context<DeleteDoveFund>) -> Result<()> {
         ErrorCode::InvalidProjectToDeleteDoveFund
     );
 
+    require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
+
     require!(
         dove_fund.amount_pooled >= DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
