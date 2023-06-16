@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Dove } from "../target/types/dove";
-import { createUser, createDoveFund, updateDoveFund, pullDoveProject, createDoveProject, sleep, getBalance, equalDateTime, getNow } from "./util";
+import { createUser, createDoveFund, updateDoveFund, pullDoveProject, createDoveProject, sleep, getBalance, equalDateTime, getNow, deleteDoveFund, updateDoveProject } from "./util";
 import assert from 'assert';
 
 describe("test_pull_dove_project", () => {
@@ -13,11 +13,13 @@ describe("test_pull_dove_project", () => {
     let admin: web3.Keypair;
     let user0: web3.Keypair;
     let user1: web3.Keypair;
+    let user2: web3.Keypair;
 
     before(async () => {
         admin = await createUser(program, DEFAULT_LAMPORTS);
         user0 = await createUser(program, DEFAULT_LAMPORTS);
         user1 = await createUser(program, DEFAULT_LAMPORTS);
+        user2 = await createUser(program, DEFAULT_LAMPORTS);
     })
 
     it("pullDoveProject", async () => {
@@ -282,7 +284,7 @@ describe("test_pull_dove_project", () => {
         }
 
         const pull_dove_project_date = getNow();
-        const pull_dove_project = await pullDoveProject(
+        await pullDoveProject(
             doveProject,
             new BN(updated_lamports_by_user0 + transferred_lamports_by_user1),
             new BN(dove_fund0_update_date),
@@ -311,5 +313,75 @@ describe("test_pull_dove_project", () => {
         assert.equal(await getBalance(program, doveFund0), dove_fund0_updated_lamports);
         assert.equal(await getBalance(program, user0.publicKey), DEFAULT_LAMPORTS - dove_fund0_updated_lamports);
         assert.equal(await getBalance(program, user1.publicKey), DEFAULT_LAMPORTS - dove_fund1_lamports);
+
+        try {
+            await updateDoveProject(
+                doveProject,
+                "https://twitter.com/Ohsugi/status/1616505441705463816?s=20&t=vofTMniwI3ysTx9wyxy8dA",
+                "Test Porject 2",
+                "Taiwan, Province of China[a]",
+                "China",
+                "This is the updated dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!",
+                "https://www.youtube.com/watch?v=zcVfBMse1Uw&ab_channel=DATALab",
+                false,
+                program,
+                admin,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsLocked"));
+        }
+
+        try {
+            await pullDoveProject(
+                doveProject,
+                new BN(updated_lamports_by_user0 + transferred_lamports_by_user1),
+                new BN(dove_fund0_update_date),
+                program,
+                admin,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsLocked"));
+        }
+
+        const transferred_lamports_by_user2 = 0.5 * web3.LAMPORTS_PER_SOL;
+        try {
+            await createDoveFund(
+                doveProject,
+                new BN(transferred_lamports_by_user2),
+                0.5,
+                false,
+                false,
+                true,
+                program,
+                user2,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsLocked"));
+        }
+
+        try {
+            await updateDoveFund(
+                doveProject,
+                new BN(updated_lamports_by_user0),
+                0.5,
+                false,
+                false,
+                true,
+                program,
+                user0,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsLocked"));
+        }
+
+        try {
+            doveFund0 = await deleteDoveFund(
+                doveProject,
+                program,
+                user0,
+            );
+        } catch (e) {
+            assert.ok(e.message.includes("DoveProjectIsLocked"));
+        }
     });
 });

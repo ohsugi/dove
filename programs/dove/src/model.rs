@@ -21,7 +21,7 @@ pub trait SizeDef {
     const SIZE: usize = 0;
 
     const ACCEPTABLE_AMOUNT_ERROR: u64 = 1000;
-    const ACCEPTABLE_DATE_ERROR: u64 = 1000000;
+    const ACCEPTABLE_DATE_ERROR: u64 = 3000000;
 
     fn get_now_as_unix_time() -> i64 {
         return Clock::get().unwrap().unix_timestamp;

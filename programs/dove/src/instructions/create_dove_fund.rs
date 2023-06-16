@@ -35,6 +35,8 @@ pub fn handler(
     let dove_fund: &mut Account<DoveFund> = &mut ctx.accounts.dove_fund;
     let dove_project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
 
+    require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
+
     require!(
         amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
