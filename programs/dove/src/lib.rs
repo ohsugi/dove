@@ -57,9 +57,8 @@ pub mod dove {
     pub fn pull_dove_project(
         ctx: Context<PullDoveProject>,
         checked_amount_pooled: u64,
-        checked_update_date: i64,
     ) -> Result<()> {
-        pull_dove_project::handler(ctx, checked_amount_pooled, checked_update_date)
+        pull_dove_project::handler(ctx, checked_amount_pooled)
     }
 
     pub fn pull_dove_fund(ctx: Context<PullDoveFund>) -> Result<()> {

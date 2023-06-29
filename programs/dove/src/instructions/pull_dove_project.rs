@@ -7,7 +7,6 @@ use anchor_lang::prelude::*;
 #[derive(Accounts)]
 #[instruction(
     checked_amount_pooled: u64, // The checked pooled amount (as Lamports)
-    checked_update_date: i64,   // The checked update date by fetching all DoveFund
 )]
 
 pub struct PullDoveProject<'info> {
@@ -20,7 +19,6 @@ pub struct PullDoveProject<'info> {
 pub fn handler(
     ctx: Context<PullDoveProject>,
     checked_amount_pooled: u64, // The checked pooled amount (as Lamports)
-    checked_update_date: i64,   // The checked update date by fetching all DoveFund
 ) -> Result<()> {
     let project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
 
@@ -35,11 +33,6 @@ pub fn handler(
     require!(
         DoveProject::almost_equal_amount_pooled(project.amount_pooled, checked_amount_pooled),
         ErrorCode::InconsistentAmountPooled
-    );
-
-    require!(
-        DoveProject::almost_equal_date(project.update_date, checked_update_date),
-        ErrorCode::InconsistentUpdateDate
     );
 
     require!(

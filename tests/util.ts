@@ -174,13 +174,11 @@ export const updateDoveProject = async (
 export const pullDoveProject = async (
     doveProject: web3.PublicKey,
     checked_amount_pooled: number,
-    checked_update_date: number,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
     await program.methods.pullDoveProject(
         checked_amount_pooled,
-        checked_update_date,
     ).accounts({
         doveProject,
         admin: admin.publicKey,
