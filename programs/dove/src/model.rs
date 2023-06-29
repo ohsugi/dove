@@ -128,8 +128,6 @@ pub struct DoveUser {
     pub social_media_link: String, // Social media links of the user
     pub evidence_link: String,     // HTML link to prove own identity
     pub is_shown: bool,            // The profile will be shown on each project webpage
-    pub amount_pooled: u64,        // The current pooled amount (as Lamports)
-    pub amount_transferred: u64,   // The transferred amount so far (as Lamports)
     pub created_date: i64,         // User craetion date (as Unix Time)
     pub update_date: i64,          // User update date (as Unix Time)
     pub bump: u8,
@@ -148,8 +146,6 @@ impl SizeDef for DoveUser {
         + DoveUser::VEC_HEADER_SIZE + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // social_media_links
         + DoveUser::VEC_HEADER_SIZE + DoveUser::MAX_HYPERLINK * DoveUser::STRING_SIZE  // evidence_link
         + DoveUser::BOOL_SIZE      // is_shown
-        + DoveUser::U64_SIZE       // amount_pooled
-        + DoveUser::U64_SIZE       // amount_transferred
         + DoveUser::I64_SZIE       // created_date
         + DoveUser::I64_SZIE       // update_date
         + DoveUser::BUMP_SIZE;
