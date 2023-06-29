@@ -1,7 +1,4 @@
-use crate::{
-    error::ErrorCode,
-    model::{DoveUser, SizeDef},
-};
+use crate::{error::ErrorCode, model::DoveUser};
 use anchor_lang::{accounts::account::Account, prelude::*};
 
 #[derive(Accounts)]
@@ -22,11 +19,6 @@ pub fn handler(ctx: Context<DeleteDoveUser>) -> Result<()> {
     require!(
         dove_user.user_pubkey == user.key(),
         ErrorCode::InvalidUserToDeleteDoveUser
-    );
-
-    require!(
-        dove_user.amount_pooled >= DoveUser::MIN_AMOUNT_TO_POOLED,
-        ErrorCode::TooSmallAmountPooled
     );
 
     // Deleting DoveUser will only removes the information for that user and pulls back the stored Lamports to the user's wallet, and no direct effect on DoveProject or DoveFund.
