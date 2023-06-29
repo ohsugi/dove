@@ -123,7 +123,7 @@ pub enum ErrorCode {
     #[msg("Invalid User to delete Dove User.")]
     InvalidUserToDeleteDoveUser,
 
-    #[msg("Dove Project is locked.")]
+    #[msg("Dove Project is not locked.")]
     DoveProjectIsLocked,
 
     #[msg("Pull from Dove Project is not allowed.")]
@@ -134,9 +134,6 @@ pub enum ErrorCode {
 
     #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
     InconsistentAmountPooled,
-
-    #[msg("Inconsistent update date between checked update date and Dove Project's update date.")]
-    InconsistentUpdateDate,
 
     #[msg("Invalid project to delete DoveFund.")]
     InvalidProjectToDeleteDoveFund,

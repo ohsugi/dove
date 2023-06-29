@@ -97,7 +97,6 @@ describe("test_pull_dove_fund", () => {
             await pullDoveProject(
                 doveProject,
                 new BN(transferred_lamports_by_user0 - 0.5 * web3.LAMPORTS_PER_SOL),
-                new BN(dove_fund0_created_date),
                 program,
                 admin,
             );
@@ -109,19 +108,6 @@ describe("test_pull_dove_fund", () => {
             await pullDoveProject(
                 doveProject,
                 new BN(transferred_lamports_by_user0),
-                new BN(getNow() + 1000000),
-                program,
-                admin,
-            );
-        } catch (e) {
-            assert.ok(e.message.includes("InconsistentUpdateDate"));
-        }
-
-        try {
-            await pullDoveProject(
-                doveProject,
-                new BN(transferred_lamports_by_user0),
-                new BN(dove_fund0_created_date),
                 program,
                 admin,
             );
@@ -189,7 +175,6 @@ describe("test_pull_dove_fund", () => {
             await pullDoveProject(
                 doveProject,
                 new BN(transferred_lamports_by_user0 + transferred_lamports_by_user1 - 0.5 * web3.LAMPORTS_PER_SOL),
-                new BN(dove_fund1_created_date),
                 program,
                 admin,
             );
@@ -201,19 +186,6 @@ describe("test_pull_dove_fund", () => {
             await pullDoveProject(
                 doveProject,
                 new BN(transferred_lamports_by_user0 + transferred_lamports_by_user1),
-                new BN(getNow() + 1000000),
-                program,
-                admin,
-            );
-        } catch (e) {
-            assert.ok(e.message.includes("InconsistentUpdateDate"));
-        }
-
-        try {
-            await pullDoveProject(
-                doveProject,
-                new BN(transferred_lamports_by_user0 + transferred_lamports_by_user1),
-                new BN(dove_fund1_created_date),
                 program,
                 admin,
             );
@@ -282,24 +254,11 @@ describe("test_pull_dove_fund", () => {
             await pullDoveProject(
                 doveProject,
                 new BN(updated_lamports_by_user0 + transferred_lamports_by_user1 - 0.5 * web3.LAMPORTS_PER_SOL),
-                new BN(dove_fund0_update_date),
                 program,
                 admin,
             );
         } catch (e) {
             assert.ok(e.message.includes("InconsistentAmountPooled"));
-        }
-
-        try {
-            await pullDoveProject(
-                doveProject,
-                new BN(updated_lamports_by_user0 + transferred_lamports_by_user1),
-                new BN(getNow() + 1000000),
-                program,
-                admin,
-            );
-        } catch (e) {
-            assert.ok(e.message.includes("InconsistentUpdateDate"));
         }
 
         try {
@@ -317,7 +276,6 @@ describe("test_pull_dove_fund", () => {
         const pull_dove_project = await pullDoveProject(
             doveProject,
             new BN(updated_lamports_by_user0 + transferred_lamports_by_user1),
-            new BN(dove_fund0_update_date),
             program,
             admin,
         );
