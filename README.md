@@ -145,30 +145,30 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   1. The admin will do the instruction among all fetched DoveFund until the pooled amount is not zero (some funds are remaining in one or more DoveFund) so that the admin can pull all amounts from the DoveFund.
   1. During this process, is_locked flag might be used to lock any operations to the DoveProject and the related DoveFund.
 - The objective of the project-based funding system instead of the specific target country
-  - 受取相手のWalletのPubkeyがわからないため、自己申告制にしてWalletのPubkeyを登録してもらう
-  - アイデア、ユースケース、平和に興味の中心があるため、政治信条的には中立的立場で運用したい
-  - 特定の国対象のシステムを作ってもカウンターとなる敵対国の同様のシステムがすぐに作られるであろうと思われるため
-  - 出資を募る人はシステムをプロモーションするモチベーションがあるため、宣伝してくれるはず
-- 利用を「平和維持」に限定する意図
-  - 抽象化すれば、何かが実現された（例えば「特定の国が攻撃を受ける」ということが実現された）と出資者がみなせばファンドが実施される、後払いのクラウドファンディングであるとみなせる
-  - アイデア自体は他のユースケースでも利用できるため、そのようにシステムを作ることも可能
-  - 利用方法を限定した方が説明がシンプルで明確になり、利用者のとっつきがよいと思われる
-  - 単なるクラファンであればBlockchainでやる必要性は薄まる
-- プールされているSolanaの使い道
-  - 例えばプールされている金額の半分を自動的にステーキングして利益を稼ぐ
-  - 稼いだ利益から一部をマージンとして受け取り、開発費・運営費に回す
-  - 残りは出資者に投資比率で案分して配布
-- 下記で何度か触れている「自身がその本人だと証明するためのリンク」について
-  - 出資を募る人間、出資する人間、いずれもWalletのPubkeyは示せても、当人のidentityを他社が容易に確認できない
-  - 例えば自身がある政府の関係者、あるいは援助物資を届けるNGO/NPOだと名乗っているとしても、それを他社が容易に確認できない
-  - ひとつの方法として、ソーシャルメディアで当該のプロジェクトや出資についてポストしてもらい、それへのリンクを貼ってもらうというのは参考になり得る
-  - 当該のソーシャルメディアアカウントが当人、当団体であると信用できそうであれば、ある種の裏付けになると思われる
+  - The appropriate recipient's wallet Pubkey can directly support the target country, it would be a self-declaration to register the wallet Pubkey and start the campaign by themselves.
+- The ideas, use cases, and ultimate peace are our core interests, so we want to operate Dove from a neutral position in terms of countries' interests and political beliefs.
+  - Even if we launch Dove only for some specific countries, some hostile countries to them can take the same approach and launch the same system to secure their profits as a country activity.
+  - People will ask for investment as their campaign will be motivated by promoting their campaign and Dove itself. It could notify the other people and get their attention on the SNSs.
+- Intention to limit use to “Peacekeeping” only for this system
+  - We can abstract Vote as the Postpaid Crowdfunding system, in which the pooled amount will be transferred once the investors decided that something has been realized (for example, "a certain country has been attacked from the other country(ies)").
+  - This idea itself can be applied to other use cases, and we can develop Dove to allow users ultimately for any purposes as well.
+  - Restricting the method of use makes the explanation more straightforward and clearer, and is thought to be more approachable for users.
+  - Basically, if the use cases would be simple crowdfundings, we need no Blockchain as the backend.
+- Uses of the pooled SOL
+  - Just for an example idea, automatically stake half of the entire pooled amount and earn a profit for retaining sustainable maintenance.
+  - Earn a small portion as a margin from the transaction to retain the sustainable development and operating expenses.
+  - The rest of the margins from the profit will be distributed to all investors proportionally according to the investment ratio to encourage keeping pooling their SOLs to Dove.
+- Social Media URL link to prove the identification
+  - Even if the users will show their Wallets Pubkeys, no one can confirm the exact identity from that information.
+  - For example, even if you claim to be a government official or an NGO/NPO that delivers relief supplies, other companies cannot easily confirm it.
+  - The potential way to allow the users to evaluate the other users' identities by themselves, is each user can submit a post related to Dove on whatever social media, and register the link to such a post from Dove.
+  - And the people can evaluate if that identity would be appropriate to support the targeted country, and the users can be encouraged to pool their funds on their campaign.
+  - This method can be good for the users to promote their campaign and Dove itself because the users can notify the other people and get their attention on the social media.
 
 ## Architecture
 - Frontend
   - Flutter
-  - Node.js
-  - React
+  - Dart
 - Backend
   - Rust
   - Anchor
@@ -176,8 +176,8 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - Solana
   - Phantom Wallet
 - Deployment
-  - Replit
   - GitHub
+  - GitHub Pages
 
 ## Account Specification
 - **DoveProject**
@@ -187,15 +187,16 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - **target_country_code**: String: Target Country code (defined in the iso_country::Country)
   - **opponent_country_code**: String: Opponent Country code (defined in the iso_country::Country)
   - **description**: String: Project description
-  - **created_date**: i64: Project created date (unix-time stap)
-  - **update_date**: i64: Project last update date (unix-time stap)
+  - **created_date**: i64: Project created date (unix-time stamp)
+  - **update_date**: i64: Project last update date (unix-time stamp)
   - **is_locked**: bool: Project Effective flag
   - **is_deleted**: bool: Project Delete flag 
   - **video_link**: String: Video link to describe the project as string (intended Youtube)
   - **amount_pooled**: u64: The current pooled amount (as Lamports)
   - **amount_transferred**: u64: The amount transferred so far (as Lamports)
   - **decision**: u64: The current decision for this project
-  - **bump**: u8
+  - **last_date_transferred**: i64: The last date time pooled amount was transferred (unix-time stamp)
+  - **bump**: u8: The bump number to avoid the duplicated PDA address
 
 - **DoveFund**
   - **project_pubkey**: Pubkey: The target project pubkey
@@ -208,6 +209,7 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - **shows_transferred_amount**: bool: If the user's transferred amount on the project webpage
   - **created_date**: i64: Fund craetion date (as Unix Time)
   - **update_date**: i64: Fund update date (as Unix Time)
+  - **bump**: u8: The bump number to avoid the duplicated PDA address
 
 - **DoveUser**
   - **user_pubkey**: Pubkey: Wallet pubkey
@@ -215,63 +217,12 @@ Therefore, after the DAO is established, infrastructure to lower the participati
   - **social_media_link**: String: Social media links of the user
   - **evidence_link**: String: HTML link to prove own identity
   - **is_shown: bool**: The profile will be shown on each project webpage
-  - **amount_pooled**: u64: The current pooled amount
-  - **amount_transferred**: u64: The transferred amount so far
   - **created_date**: i64: User craetion date (as Unix Time)
   - **update_date**: i64: User update date (as Unix Time)
+  - **bump**: u8: The bump number to avoid the duplicated PDA address
 
-## Screen Specification
-- ランディングページ: タイトル、ページの説明、この企画そのものへのSNSへのリンクなどと併せて登録されているプロジェクトの一覧を表示するページ
-  - プロジェクトページへの遷移ボタン、表示されている各プロジェクトのファンドページへのボタンが表示される
-  - プロジェクトが増えてきた場合は、プロジェクト一覧の検索・フィルタリング機能を追加する
-- プロジェクトページ: プロジェクトを登録するページ。次のパラメータを設定できる
-  - 対象国の名前
-  - プロジェクト登録日
-  - プロジェクト更新日
-  - プロジェクト有効フラグ
-    - 無効のプロジェクトは画面上に表示されるものの「無効」である旨が表示され、投資や情報の変更ができなくなる
-  - プロジェクト削除フラグ
-    - 削除されたプロジェクトは画面上に表示されないし情報が変更できなくなる
-  - プロジェクトの説明
-  - 資金受取後の利用用途
-  - 動画もしくは画像へのリンク
-    - 動画はYoutubeを想定
-  - 自身のソーシャルメディアアカウント・Webページなどへのリンク（10個まで）
-  - 資金受け取り組織・個人（自身）の名前
-  - 資金受け取りWalletのPubkey
-  - 自身がその組織だと証明するためのリンク
-    - 自身のSNSアカウントでこのプロジェクトを引用して皆に出資を呼び掛けた上で、その投稿へのダイレクトリンクの登録を推奨、プロジェクト登録後に設定可能
-  - 現在の合計プール金額（自動算出）
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
-  - 被攻撃判断閾値（自動算出）
-    - 0～100%の数値でこの数値以上の割合の出資者が「攻撃を受けている」と判断すればプールされている資金が資金受取Walletへ送金される
-    - 各出資者が妥当であると思われる閾値を入力し、出資金額による加重平均を算出して決定、パーセンテージで下2桁四捨五入（e.g. 56.32%）
-  - 攻撃を受けていると判断している出資者の割合（自動算出）
-    - 0～100%の数値で現在の出資者の意見に出資金額で加重平均
-    - 攻撃を受けていると判断されている間は出資金額がそのまま資金受取Walletにダイレクトに送金され続ける
-- ファンドページ: プロジェクトにファンドしたり、取りやめたり、出資金額、意見を変更するページ。次のパラメータを設定できる
-  - 対象プロジェクトの各種情報で必要そうなものがページに表示される
-  - 出資金額
-  - 被攻撃判断閾値
-    - プロジェクトの被攻撃判断閾値を算出するための数値、defaultは50%
-  - 現在攻撃を受けていると判断するか
-    - 0 or 1 でなく、パーセンテージで設定可能、誰かに判断を委任することは現状ではできない（単に実装が複雑になると思われるため）
-  - 自身のアカウント情報をプロジェクトページに表示するか否か、defaultはNo
-  - 自身の投資金額をプロジェクトページに表示するか否か、defaultはNo
-  - ウォッチリストへの追加、defaultはNo
-    - メールアドレスが登録されている場合にプッシュで情報を受け取りたいかどうか
-- ユーザページ: 接続しているWalletに関する情報（便宜的にユーザ情報と呼ぶ）を閲覧・変更するページ。次のパラメータを設定できる
-  - ユーザ名（誰かと重複していても良い）
-  - メールアドレス（登録されていればプッシュで情報を配信できるようになる、画面には表示しない）
-  - 自身のSNSアカウント・Webページなどへのリンク（10個まで）
-  - 自身がその本人だと証明するためのリンク
-    - 自身のSNSアカウントでこのアカウントを引用して皆に出資を呼び掛けた上で、その投稿へのダイレクトリンクの登録を推奨
-  - これまで出資したプロジェクトのPubkey一覧
-  - 自身の情報を公開したいか否か、defaultはNo
-  - 現在の合計プール金額（自動算出）
-  - これまでの合計プール金額最大値
-  - これまでの合計送金済金額
+## Front-end Development
+- https://github.com/ohsugi/dove-frontend
   
   ## Credit
 - Arjun: https://github.com/LearnWithArjun

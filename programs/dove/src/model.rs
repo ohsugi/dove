@@ -52,7 +52,7 @@ pub struct DoveProject {
     pub amount_transferred: u64,       // The amount transferred so far (as Lamports)
     pub decision: f32,                 // The current decision for this project
     pub last_date_transferred: i64,    // The last time pooled amount was transferred
-    pub bump: u8,
+    pub bump: u8,                      // The bump number to avoid the duplicated PDA address
 }
 
 impl DoveProject {
@@ -100,7 +100,7 @@ pub struct DoveFund {
     pub shows_transferred_amount: bool, // If the user's transferred amount on the project webpage (as Lamports)
     pub created_date: i64,              // Fund craetion date (as Unix Time)
     pub update_date: i64,               // Fund update date (as Unix Time)
-    pub bump: u8,
+    pub bump: u8,                       // The bump number to avoid the duplicated PDA address
 }
 
 impl DoveFund {}
@@ -130,7 +130,7 @@ pub struct DoveUser {
     pub is_shown: bool,            // The profile will be shown on each project webpage
     pub created_date: i64,         // User craetion date (as Unix Time)
     pub update_date: i64,          // User update date (as Unix Time)
-    pub bump: u8,
+    pub bump: u8,                  // The bump number to avoid the duplicated PDA address
 }
 
 impl DoveUser {
