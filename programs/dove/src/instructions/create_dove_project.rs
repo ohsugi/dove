@@ -59,7 +59,7 @@ pub fn handler(
     let opponent_country: Option<Country> = Country::from_name(opponent_country_name.as_str());
     require!(
         (opponent_country_name.as_str() == "")    // opponent_country_name can be empty 
-            || (opponent_country != None), // otherwise, it should be different from the target country
+            || (opponent_country != None),        // otherwise, it should be not None
         ErrorCode::InvalidOpponentCountryName
     );
 
