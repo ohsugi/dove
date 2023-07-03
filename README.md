@@ -63,8 +63,10 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 
 #### Make your own branch and setup the enviornment
 1. Fork the repo to your account and clone the forked repo to your local laptop.
-1. Install the dependency of `@project-serum/anchor`
-    > yarn add @project-serum/anchor
+1. Install yarn 
+    > sudo apt install cmdtest
+1. Install the dependencies
+    > yarn install
 1. Generate your wallet to deploy the program to Solana block chain.
     > solana-keygen new -o ./id.json
 1. Check the address of your wallet.
@@ -75,6 +77,8 @@ Therefore, after the DAO is established, infrastructure to lower the participati
     > solana airdrop 2 `YOUR WALLET ADDRESS`
 1. Then build the program with Anchor.
     > anchor build
+    - This step could occur many troubles, please refer [Troubleshoot section](#Troubleshoot) to check the previous lessons learned.
+    - If you cannot find the solution, google with your error message on your console to find the answer and put it in that section to solve it immediately the next time! This should be not only for others but also for yourself who can face the same issue again.
 1. Check the Program Account address.
     > solana address -k ./target/deploy/dove-keypair.json
 1. Copy & paste your Program Account addresses. E.g., if the address was `HCe8d6dZzxnLGuqtiKNERShgnVSVf6txrDmyCQEQdmTN`, you should update the addresses in the below three parts of the files.
@@ -128,7 +132,28 @@ Therefore, after the DAO is established, infrastructure to lower the participati
       
     - In this case `12-word seed phrase` would be `coyote twin dish round acid talk marble arch stuff review turn unique`.
 
+#### Troubleshoot
+- Error message like "error while loading shared libraries: libssl.so.1.1: cannot open shared object file: No such file or directory".
+  - https://github.com/solana-labs/solana/issues/22404
+  ```
+  rm -rf ~/.local/share/solana
+  rm -rf ~/.config/solana
+  rm -rf ~/.cache/solana
+  sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+  ```
+- Error message like "error while loading shared libraries: libssl.so.1.1: cannot open shared object file: No such file or directory".
+  - https://github.com/solana-labs/example-helloworld/issues/470
+  ```
+  wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+  sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+  ```
+
 ### Test on the Localnet
+1. Install ts-mocha if not installed yet.
+    > npm install --global ts-mocha
+    > npm install --global typescript
+1. Configure the CLI Tool Suite to target a local cluster by default.
+    > solana config set --url localhost
 1. Run the Solana local validator node for testing in a console window.
     > solana-test-validator
 1. Run Anchor Test by skipping to boot the local validator node in the other console.
