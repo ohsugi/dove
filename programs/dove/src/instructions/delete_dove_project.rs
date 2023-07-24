@@ -18,7 +18,7 @@ pub fn handler(ctx: Context<DeleteDoveProject>) -> Result<()> {
 
     require!(
         project.admin_pubkey == ctx.accounts.admin.key(),
-        ErrorCode::InvalidUserToDeleteDoveProject
+        ErrorCode::InvalidUser
     );
     require!(!project.is_deleted, ErrorCode::DoveProjectIsAlreadyDeleted);
     require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);

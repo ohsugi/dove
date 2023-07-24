@@ -118,7 +118,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /PullDoveProjectIsNotAllowed/);
+        assert.match(errorMessage, /PullFundsIsNotAllowed/);
 
         // Delete doveProject
         errorMessage = "";
@@ -131,7 +131,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /InvalidUserToDeleteDoveProject/);
+        assert.match(errorMessage, /InvalidUser/);
 
         errorMessage = "";
         try {

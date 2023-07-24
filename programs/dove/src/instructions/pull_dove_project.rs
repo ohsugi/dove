@@ -24,7 +24,7 @@ pub fn handler(
 
     require!(
         project.admin_pubkey == ctx.accounts.admin.key(),
-        ErrorCode::InvalidUserToPullDoveProject
+        ErrorCode::InvalidUser
     );
     require!(!project.is_deleted, ErrorCode::DoveProjectIsAlreadyDeleted);
     require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);
@@ -37,7 +37,7 @@ pub fn handler(
 
     require!(
         project.decision >= DoveProject::DECISION_THRESHOLD,
-        ErrorCode::PullDoveProjectIsNotAllowed
+        ErrorCode::PullFundsIsNotAllowed
     );
 
     // lock any changes regarding the project even for the DoveFund except pulling the pooled amount.

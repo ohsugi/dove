@@ -22,18 +22,12 @@ pub fn handler(ctx: Context<DeleteDoveFund>) -> Result<()> {
     let dove_project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
     let user: &mut Signer = &mut ctx.accounts.user;
 
-    require!(
-        dove_fund.user_pubkey == user.key(),
-        ErrorCode::InvalidUserToDeleteDoveFund
-    );
-
+    require!(dove_fund.user_pubkey == user.key(), ErrorCode::InvalidUser);
     require!(
         dove_fund.project_pubkey == dove_project.key(),
-        ErrorCode::InvalidProjectToDeleteDoveFund
+        ErrorCode::InvalidProject
     );
-
     require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
-
     require!(
         dove_fund.amount_pooled >= DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
