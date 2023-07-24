@@ -50,7 +50,7 @@ describe("test_delete_dove_project", () => {
         assert.equal(doveProjectAccount.amountTransferred, 0);
         assert.equal(doveProjectAccount.decision, 0);
 
-        await sleep(1000);
+        await sleep();
 
         let dove_project_lamports = await getBalance(program, doveProject);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
@@ -87,7 +87,7 @@ describe("test_delete_dove_project", () => {
         assert.equal(Math.round(doveProjectAccount.decision * 100) / 100, 0.3);
         assert.ok(equalDateTime(doveProjectAccount.updateDate, dove_fund0_created_date));
 
-        await sleep(1000);
+        await sleep();
 
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
@@ -105,7 +105,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("InconsistentAmountPooled"));
+        assert.match(errorMessage, /InconsistentAmountPooled/);
 
         errorMessage = "";
         try {
@@ -118,7 +118,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("PullDoveProjectIsNotAllowed"));
+        assert.match(errorMessage, /PullDoveProjectIsNotAllowed/);
 
         // Delete doveProject
         errorMessage = "";
@@ -131,7 +131,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("InvalidUserToDeleteDoveProject"));
+        assert.match(errorMessage, /InvalidUserToDeleteDoveProject/);
 
         errorMessage = "";
         try {
@@ -165,7 +165,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("DoveProjectIsAlreadyDeleted"));
+        assert.match(errorMessage, /DoveProjectIsAlreadyDeleted/);
 
         errorMessage = "";
         try {
@@ -177,7 +177,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("DoveProjectIsAlreadyDeleted"));
+        assert.match(errorMessage, /DoveProjectIsAlreadyDeleted/);
 
         const transferred_lamports_by_user1 = 1.2 * web3.LAMPORTS_PER_SOL;
         errorMessage = "";
@@ -195,7 +195,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("DoveProjectIsAlreadyDeleted"));
+        assert.match(errorMessage, /DoveProjectIsAlreadyDeleted/);
 
         errorMessage = "";
         try {
@@ -213,7 +213,7 @@ describe("test_delete_dove_project", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.ok(errorMessage.includes("DoveProjectIsAlreadyDeleted"));
+        assert.match(errorMessage, /DoveProjectIsAlreadyDeleted/);
 
         errorMessage = "";
         try {

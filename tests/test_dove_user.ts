@@ -36,7 +36,7 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.userName, "User 0");
         assert.equal(doveUserAccount.socialMediaLink, "https://twitter.com/Ohsugi");
         assert.equal(doveUserAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1644117229875724306?s=20");
-        assert.equal(doveUserAccount.isShown, true);
+        assert.ok(doveUserAccount.isShown);
         assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
         assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
     });
@@ -56,7 +56,7 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.userName, "User 1");
         assert.equal(doveUserAccount.socialMediaLink, "https://twitter.com/Ohsugi");
         assert.equal(doveUserAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1644117229875724306?s=20");
-        assert.equal(doveUserAccount.isShown, true);
+        assert.ok(doveUserAccount.isShown);
         assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
         assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
 
@@ -75,7 +75,7 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.userName, "User 1 updated");
         assert.equal(doveUserAccount.socialMediaLink, "https://twitter.com/Ohsugi_updated");
         assert.equal(doveUserAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1644117229875724306");
-        assert.equal(doveUserAccount.isShown, false);
+        assert.ok(!doveUserAccount.isShown);
         assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
         assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_updated_date));
     });
@@ -95,7 +95,7 @@ describe("test_dove_user", () => {
         assert.equal(doveUserAccount.userName, "User 2");
         assert.equal(doveUserAccount.socialMediaLink, "https://twitter.com/Ohsugi");
         assert.equal(doveUserAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1644117229875724306?s=20");
-        assert.equal(doveUserAccount.isShown, false);
+        assert.ok(!doveUserAccount.isShown);
         assert.ok(equalDateTime(doveUserAccount.createdDate, dove_user_created_date));
         assert.ok(equalDateTime(doveUserAccount.updateDate, dove_user_created_date));
 
@@ -107,7 +107,7 @@ describe("test_dove_user", () => {
             user2,
         );
 
-        await sleep(1000);
+        await sleep();
         assert.equal(await getBalance(program, user2.publicKey), DEFAULT_LAMPORTS);
     });
 });

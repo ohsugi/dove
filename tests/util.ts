@@ -4,6 +4,7 @@ import { SystemProgram } from "@solana/web3.js";
 import { Dove } from "../target/types/dove";
 
 const ACCEPTABLE_DATE_ERROR = 3000000;
+const DEFAULT_WAIT_TIME = 1000;
 export const equalDateTime = (dateTime1: number, dateTime2: number): boolean => {
     return Math.abs(dateTime1 - dateTime2) < ACCEPTABLE_DATE_ERROR;
 }
@@ -12,7 +13,7 @@ export const getNow = (): number => {
     return Math.round(Date.now() / 1000);
 };
 
-export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+export const sleep = (ms: number = DEFAULT_WAIT_TIME) => new Promise(r => setTimeout(r, ms));
 
 export const stringToBytes = (str: string) => {
     return utils.bytes.utf8.encode(str);

@@ -43,13 +43,13 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveProjectAccount.description, "This is the test dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
         assert.ok(equalDateTime(doveProjectAccount.createdDate.toNumber(), dove_project_created_date));
         assert.ok(equalDateTime(doveProjectAccount.updateDate.toNumber(), dove_project_created_date));
-        assert.equal(doveProjectAccount.isLocked, false);
+        assert.ok(!doveProjectAccount.isLocked);
         assert.equal(doveProjectAccount.videoLink, "");
         assert.equal(doveProjectAccount.amountPooled, 0);
         assert.equal(doveProjectAccount.amountTransferred, 0);
         assert.equal(doveProjectAccount.decision, 0);
 
-        await sleep(1000);
+        await sleep();
 
         let dove_project_lamports = await getBalance(program, doveProject);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
@@ -73,9 +73,9 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveFundAccount0.amountPooled, transferred_lamports_by_user0);
         assert.equal(doveFundAccount0.amountTransferred, 0);
         assert.equal(Math.round(doveFundAccount0.decision * 100) / 100, 0.2);
-        assert.equal(doveFundAccount0.showsUser, true);
-        assert.equal(doveFundAccount0.showsPooledAmount, true);
-        assert.equal(doveFundAccount0.showsTransferredAmount, false);
+        assert.ok(doveFundAccount0.showsUser);
+        assert.ok(doveFundAccount0.showsPooledAmount);
+        assert.ok(!doveFundAccount0.showsTransferredAmount);
         assert.ok(equalDateTime(doveFundAccount0.createdDate.toNumber(), dove_fund0_created_date));
         assert.ok(equalDateTime(doveFundAccount0.updateDate.toNumber(), dove_fund0_created_date));
 
@@ -85,7 +85,7 @@ describe("test_create_dove_fund", () => {
         assert.equal(Math.round(doveProjectAccount.decision * 100) / 100, 0.2);
         assert.ok(equalDateTime(doveProjectAccount.updateDate.toNumber(), dove_fund0_created_date));
 
-        await sleep(1000);
+        await sleep();
 
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
@@ -110,9 +110,9 @@ describe("test_create_dove_fund", () => {
         assert.equal(doveFundAccount1.amountPooled, transferred_lamports_by_user1);
         assert.equal(doveFundAccount1.amountTransferred, 0);
         assert.equal(Math.round(doveFundAccount1.decision * 100) / 100, 0.3);
-        assert.equal(doveFundAccount1.showsUser, false);
-        assert.equal(doveFundAccount1.showsPooledAmount, false);
-        assert.equal(doveFundAccount1.showsTransferredAmount, true);
+        assert.ok(!doveFundAccount1.showsUser);
+        assert.ok(!doveFundAccount1.showsPooledAmount);
+        assert.ok(doveFundAccount1.showsTransferredAmount);
         assert.ok(equalDateTime(doveFundAccount0.createdDate.toNumber(), dove_fund1_created_date));
         assert.ok(equalDateTime(doveFundAccount0.updateDate.toNumber(), dove_fund1_created_date));
 
@@ -128,7 +128,7 @@ describe("test_create_dove_fund", () => {
         );
         assert.ok(equalDateTime(doveProjectAccount.updateDate.toNumber(), dove_fund1_created_date));
 
-        await sleep(1000);
+        await sleep();
 
         assert.equal(await getBalance(program, doveProject), dove_project_lamports);
         assert.equal(await getBalance(program, admin.publicKey), DEFAULT_LAMPORTS - dove_project_lamports);
