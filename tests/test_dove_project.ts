@@ -75,7 +75,7 @@ describe("test_dove_project", () => {
     assert.ok(equalDateTime(doveProjectAccount.createdDate.toNumber(), dove_project_created_date));
     assert.ok(equalDateTime(doveProjectAccount.lastDateTransferred.toNumber(), dove_project_created_date));
 
-    await sleep(1000);
+    await sleep();
 
     const updatedProject = await updateDoveProject(
       doveProject,
