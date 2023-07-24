@@ -36,7 +36,7 @@ pub fn handler(
 
     require!(
         project.admin_pubkey == ctx.accounts.admin.key(),
-        ErrorCode::InvalidUserToUpdateDoveProject
+        ErrorCode::InvalidUser
     );
     require!(!project.is_deleted, ErrorCode::DoveProjectIsAlreadyDeleted);
     require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);
@@ -91,7 +91,7 @@ pub fn handler(
             || (project.description != description)
             || (project.video_link != video_link)
             || (project.is_locked != is_locked),
-        ErrorCode::NoChangeToDoveProject
+        ErrorCode::NoUpdateApplied,
     );
 
     project.evidence_link = evidence_link;

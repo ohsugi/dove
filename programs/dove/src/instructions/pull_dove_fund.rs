@@ -24,17 +24,17 @@ pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
 
     require!(
         dove_fund.project_pubkey == dove_project.key(),
-        ErrorCode::InvalidProjectToPullDoveFund
+        ErrorCode::InvalidProject
     );
 
     require!(
         dove_project.admin_pubkey == admin.key(),
-        ErrorCode::InvalidAdminToPullDoveFund
+        ErrorCode::InvalidUser
     );
 
     require!(
         dove_project.decision >= DoveProject::DECISION_THRESHOLD,
-        ErrorCode::PullDoveFundIsNotAllowed
+        ErrorCode::PullFundsIsNotAllowed
     );
 
     require!(
@@ -42,10 +42,7 @@ pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
         ErrorCode::TooSmallAmountPooled
     );
 
-    require!(
-        dove_project.is_locked,
-        ErrorCode::DoveProjectIsNotLockedWhenPullingDoveFund
-    );
+    require!(dove_project.is_locked, ErrorCode::DoveProjectIsNotLocked);
 
     require!(
         dove_fund.update_date < dove_project.last_date_transferred,

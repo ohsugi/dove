@@ -24,9 +24,6 @@ pub enum ErrorCode {
     #[msg("Too long project Description.")]
     TooLongDescription,
 
-    #[msg("Invalid Is Effective flag.")]
-    InvalidIsLocked,
-
     #[msg("Too long Video link.")]
     TooLongVideoLink,
 
@@ -43,122 +40,43 @@ pub enum ErrorCode {
     #[msg("Too large Amount Pooled")]
     TooLargeAmountPooled,
 
-    #[msg("Too small Amount Transferred")]
-    TooSmallAmountTransferred,
-    #[msg("Too large Amount Transferred")]
-    TooLargeAmountTransferred,
-
-    #[msg("Too small current Amount Pooled")]
-    TooSmallCurrentAmountPooled,
-    #[msg("Too large current Amount Pooled")]
-    TooLargeCurrentAmountPooled,
-
-    #[msg("Too small new Amount Pooled")]
-    TooSmallNewAmountPooled,
-    #[msg("Too large new Amount Pooled")]
-    TooLargeNewAmountPooled,
-
     #[msg("Too small Decision value")]
     TooSmallDecision,
     #[msg("Too large Decision value")]
     TooLargeDecision,
-
-    #[msg("Too small current Decision value")]
-    TooSmallCurrentDecision,
-    #[msg("Too large current Decision value")]
-    TooLargeCurrentDecision,
-
-    #[msg("Too small new Decision value")]
-    TooSmallNewDecision,
-    #[msg("Too large new Decision value")]
-    TooLargeNewDecision,
-
-    #[msg("Invalid Shows User Flag.")]
-    InvalidShowsUser,
-
-    #[msg("Invalid Shows Pooled Amount flag.")]
-    InvalidShowsPooledAmount,
-
-    #[msg("Invalid Shows Transferred Amount flag.")]
-    InvalidShowsTransferredAmount,
 
     #[msg("Too short User Name.")]
     TooShortUserName,
     #[msg("Too long User Name.")]
     TooLongUserName,
 
-    #[msg("Invalid User to Update Dove Project.")]
-    InvalidUserToUpdateDoveProject,
+    #[msg("Invalid User to Update the Target PDA.")]
+    InvalidUser,
 
-    #[msg("Invalid User to Pull Dove Project.")]
-    InvalidUserToPullDoveProject,
+    #[msg("InsufficientFunds in the Target PDA.")]
+    InsufficientFunds,
 
-    #[msg("Invalid User to Delete Dove Project.")]
-    InvalidUserToDeleteDoveProject,
+    #[msg("No change applied to the Target PDF.")]
+    NoUpdateApplied,
 
-    #[msg("Solana transaction failed.")]
-    SolanaTransationFailed,
-
-    #[msg("DoveFund has InsufficientFunds")]
-    InsufficientFundsInDoveFund,
-
-    #[msg("DoveUser has InsufficientFunds")]
-    InsufficientFundsInDoveUser,
-
-    #[msg("Invalid amount pooled in Project")]
-    InvalidAmountPooledInProject,
-
-    #[msg("Account conversion failed")]
-    AccountConversionFailed,
-
-    #[msg("No change applied to the Dove Fund")]
-    NoChangeToDoveFund,
-
-    #[msg("No change applied to the Dove Project")]
-    NoChangeToDoveProject,
-
-    #[msg("Invalid User to update Dove Fund.")]
-    InvalidUserToUpdateDoveFund,
-
-    #[msg("Invalid User to delete Dove Fund.")]
-    InvalidUserToDeleteDoveFund,
-
-    #[msg("Invalid User to delete Dove User.")]
-    InvalidUserToDeleteDoveUser,
+    #[msg("Dove Project is locked.")]
+    DoveProjectIsLocked,
 
     #[msg("Dove Project is not locked.")]
-    DoveProjectIsLocked,
+    DoveProjectIsNotLocked,
 
     #[msg("Dove Project is already deleted.")]
     DoveProjectIsAlreadyDeleted,
 
-    #[msg("Pull from Dove Project is not allowed.")]
-    PullDoveProjectIsNotAllowed,
-
-    #[msg("Pull from Dove Fund is not allowed.")]
-    PullDoveFundIsNotAllowed,
+    #[msg("Pull Funds from the Target PDA is not allowed.")]
+    PullFundsIsNotAllowed,
 
     #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
     InconsistentAmountPooled,
 
-    #[msg("Invalid project to delete DoveFund.")]
-    InvalidProjectToDeleteDoveFund,
-
-    #[msg("Invalid project to pull DoveFund.")]
-    InvalidProjectToPullDoveFund,
-
-    #[msg("Invalid project to update DoveFund.")]
-    InvalidProjectToUpdateDoveFund,
-
-    #[msg("Invalid admin to pull DoveFund.")]
-    InvalidAdminToPullDoveFund,
-
-    #[msg("Dove Project is not locked when pulling DoveFund.")]
-    DoveProjectIsNotLockedWhenPullingDoveFund,
+    #[msg("Invalid project for the Target PDA.")]
+    InvalidProject,
 
     #[msg("Dove Fund was already transferred.")]
     DoveFundWasAlreadyTransferred,
-
-    #[msg("Debug Message")]
-    DebugError,
 }

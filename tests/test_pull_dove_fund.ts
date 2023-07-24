@@ -118,7 +118,7 @@ describe("test_pull_dove_fund", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /PullDoveProjectIsNotAllowed/);
+        assert.match(errorMessage, /PullFundsIsNotAllowed/);
 
         errorMessage = "";
         try {
@@ -131,7 +131,7 @@ describe("test_pull_dove_fund", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /PullDoveFundIsNotAllowed/);
+        assert.match(errorMessage, /PullFundsIsNotAllowed/);
 
         // Create DoveFund1
         const transferred_lamports_by_user1 = 1.2 * web3.LAMPORTS_PER_SOL;
@@ -202,7 +202,7 @@ describe("test_pull_dove_fund", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /PullDoveProjectIsNotAllowed/);
+        assert.match(errorMessage, /PullFundsIsNotAllowed/);
 
         errorMessage = "";
         try {
@@ -215,7 +215,7 @@ describe("test_pull_dove_fund", () => {
         } catch (e) {
             errorMessage = e.message;
         }
-        assert.match(errorMessage, /PullDoveFundIsNotAllowed/);
+        assert.match(errorMessage, /PullFundsIsNotAllowed/);
 
         // Update DoveFund0
         const updated_lamports_by_user0 = 1.3 * web3.LAMPORTS_PER_SOL;

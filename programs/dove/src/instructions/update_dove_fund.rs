@@ -34,11 +34,11 @@ pub fn handler(
 
     require!(
         dove_fund.user_pubkey == user.key(),
-        ErrorCode::InvalidUserToUpdateDoveFund
+        ErrorCode::InvalidUser
     );
     require!(
         dove_fund.project_pubkey == dove_project.key(),
-        ErrorCode::InvalidProjectToUpdateDoveFund
+        ErrorCode::InvalidProject
     );
     require!(
         !dove_project.is_deleted,
@@ -63,7 +63,7 @@ pub fn handler(
     );
     require!(
         (dove_fund.amount_pooled != new_amount_pooled) || (dove_fund.decision != new_decision) || (dove_fund.shows_user != new_shows_user) || (dove_fund.shows_pooled_amount != new_shows_pooled_amount) || (dove_fund.shows_transferred_amount != new_shows_transferred_amount),
-            ErrorCode::NoChangeToDoveFund
+            ErrorCode::NoUpdateApplied
     );
 
     // If the last update was before the last transaction of the project, the pooled money was transferred.
@@ -94,7 +94,7 @@ pub fn handler(
         let withdraw_amount = dove_fund.amount_pooled - new_amount_pooled;
         // Transfer Solana to the user wallet from dove_fund_account
         let rent_balance = Rent::get()?.minimum_balance(dove_fund.to_account_info().data_len());
-        require!(**dove_fund.to_account_info().lamports.borrow() - rent_balance >= withdraw_amount, ErrorCode::InsufficientFundsInDoveFund);
+        require!(**dove_fund.to_account_info().lamports.borrow() - rent_balance >= withdraw_amount, ErrorCode::InsufficientFunds);
         **dove_fund.to_account_info().try_borrow_mut_lamports()? -= withdraw_amount;
         **user.to_account_info().try_borrow_mut_lamports()? += withdraw_amount;
     }
