@@ -38,14 +38,12 @@ pub fn handler(
         project.admin_pubkey == ctx.accounts.admin.key(),
         ErrorCode::InvalidUserToUpdateDoveProject
     );
-
+    require!(!project.is_deleted, ErrorCode::DoveProjectIsAlreadyDeleted);
     require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);
-
     require!(
         evidence_link.len() <= DoveProject::MAX_HYPERLINK,
         ErrorCode::TooLongEvidenceLink
     );
-
     require!(
         project_name.len() >= DoveProject::MIN_PROJECT_NAME,
         ErrorCode::TooShortProjectName
@@ -105,7 +103,6 @@ pub fn handler(
         project.opponent_country_code = opponent_country.unwrap().to_string();
     }
     project.description = description;
-    project.amount_transferred = 0;
 
     project.update_date = DoveProject::get_now_as_unix_time();
     project.is_locked = is_locked;
