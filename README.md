@@ -47,6 +47,8 @@ Therefore, after the DAO is established, infrastructure to lower the participati
 #### Update Solana
 1. Run the solana-installer in a console to catchup/apply the latest updates
     > solana-install update
+1. Or, you can use curl to install the latest version of the Solana CLI tools.
+    > sh -c "$(curl -sSfL https://release.solana.com/v1.16.5/install)"
 1. Verify the installation.
     > solana --version
 
@@ -156,6 +158,8 @@ Therefore, after the DAO is established, infrastructure to lower the participati
     > solana config set --url localhost
 1. Run the Solana local validator node for testing in a console window.
     > solana-test-validator
+1. Or, you want to reset validator data, run the below command.
+    > solana-test-validator -r
 1. Run Anchor Test by skipping to boot the local validator node in the other console.
     > anchor test --skip-local-validator
 

@@ -26,7 +26,7 @@ pub fn handler(
         project.admin_pubkey == ctx.accounts.admin.key(),
         ErrorCode::InvalidUserToPullDoveProject
     );
-
+    require!(!project.is_deleted, ErrorCode::DoveProjectIsAlreadyDeleted);
     require!(!project.is_locked, ErrorCode::DoveProjectIsLocked);
 
     // If the checked values are inconsistent with the calculated values with the fetched from all DoveFund PDAs.

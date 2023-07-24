@@ -139,7 +139,6 @@ export const createDoveProject = async (
         admin: admin.publicKey,
         systemProgram: SystemProgram.programId,
     }).signers([admin]).rpc();
-
     return doveProject;
 };
 
@@ -167,7 +166,6 @@ export const updateDoveProject = async (
         doveProject,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
-
     return doveProject;
 };
 
@@ -199,6 +197,19 @@ export const pullDoveFund = async (
         admin: admin.publicKey,
     }).signers([admin]).rpc();
     return doveFund;
+};
+
+export const deleteDoveProject = async (
+    doveProject: web3.PublicKey,
+    program: Program<Dove>,
+    admin: web3.Keypair,
+): Promise<web3.PublicKey> => {
+    await program.methods.deleteDoveProject(
+    ).accounts({
+        doveProject,
+        admin: admin.publicKey,
+    }).signers([admin]).rpc();
+    return doveProject;
 };
 
 export const createDoveFund = async (

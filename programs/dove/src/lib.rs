@@ -65,6 +65,10 @@ pub mod dove {
         pull_dove_fund::handler(ctx)
     }
 
+    pub fn delete_dove_project(ctx: Context<DeleteDoveProject>) -> Result<()> {
+        delete_dove_project::handler(ctx)
+    }
+
     pub fn create_dove_user(
         ctx: Context<CreateDoveUser>,
         user_name: String,

@@ -47,6 +47,7 @@ pub struct DoveProject {
     pub created_date: i64,             // Project craetion date (as Unix Time)
     pub update_date: i64,              // Project update date (as Unix Time)
     pub is_locked: bool,               // If project is locked
+    pub is_deleted: bool,              // If project is deleted
     pub video_link: String,            // Video link to describe the project (intended youtube link)
     pub amount_pooled: u64,            // The current pooled amount (as Lamports)
     pub amount_transferred: u64,       // The amount transferred so far (as Lamports)
@@ -79,6 +80,7 @@ impl SizeDef for DoveProject {
         + DoveProject::I64_SZIE       // created_date
         + DoveProject::I64_SZIE       // update_date
         + DoveProject::BOOL_SIZE      // is_locked
+        + DoveProject::BOOL_SIZE      // is_deleted
         + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // video_link
         + DoveProject::U64_SIZE       // amount_pooled
         + DoveProject::U64_SIZE       // amount_transferred

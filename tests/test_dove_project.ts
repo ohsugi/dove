@@ -37,7 +37,7 @@ describe("test_dove_project", () => {
     assert.equal(doveProjectAccount.opponentCountryCode, "CN");
     assert.equal(doveProjectAccount.description, "This is the test dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
     assert.equal(doveProjectAccount.createdDate.toNumber(), doveProjectAccount.updateDate.toNumber());
-    assert.equal(doveProjectAccount.isLocked, false);
+    assert.ok(!doveProjectAccount.isLocked);
     assert.equal(doveProjectAccount.videoLink, "");
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);
@@ -66,7 +66,8 @@ describe("test_dove_project", () => {
     assert.equal(doveProjectAccount.opponentCountryCode, "");
     assert.equal(doveProjectAccount.description, "This is the test dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
     assert.equal(doveProjectAccount.createdDate.toNumber(), doveProjectAccount.updateDate.toNumber());
-    assert.equal(doveProjectAccount.isLocked, false);
+    assert.ok(!doveProjectAccount.isLocked);
+    assert.ok(!doveProjectAccount.isDeleted);
     assert.equal(doveProjectAccount.videoLink, "https://youtu.be/zcVfBMse1Uw");
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);
@@ -96,7 +97,7 @@ describe("test_dove_project", () => {
     assert.equal(updatedProjectAccount.opponentCountryCode, "CN");
     assert.equal(updatedProjectAccount.description, "This is the updated dove project, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
     assert.notEqual(updatedProjectAccount.createdDate.toNumber(), updatedProjectAccount.updateDate.toNumber());
-    assert.equal(updatedProjectAccount.isLocked, false);
+    assert.ok(!updatedProjectAccount.isLocked);
     assert.equal(updatedProjectAccount.videoLink, "https://www.youtube.com/watch?v=zcVfBMse1Uw&ab_channel=DATALab");
     assert.equal(doveProjectAccount.amountPooled, 0);
     assert.equal(doveProjectAccount.amountTransferred, 0);

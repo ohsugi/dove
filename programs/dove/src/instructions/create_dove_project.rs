@@ -97,6 +97,7 @@ pub fn handler(
     project.created_date = DoveProject::get_now_as_unix_time();
     project.update_date = project.created_date;
     project.is_locked = false;
+    project.is_deleted = false;
     project.video_link = video_link;
     project.amount_pooled = 0;
     project.amount_transferred = 0;

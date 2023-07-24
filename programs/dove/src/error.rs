@@ -93,6 +93,9 @@ pub enum ErrorCode {
     #[msg("Invalid User to Pull Dove Project.")]
     InvalidUserToPullDoveProject,
 
+    #[msg("Invalid User to Delete Dove Project.")]
+    InvalidUserToDeleteDoveProject,
+
     #[msg("Solana transaction failed.")]
     SolanaTransationFailed,
 
@@ -125,6 +128,9 @@ pub enum ErrorCode {
 
     #[msg("Dove Project is not locked.")]
     DoveProjectIsLocked,
+
+    #[msg("Dove Project is already deleted.")]
+    DoveProjectIsAlreadyDeleted,
 
     #[msg("Pull from Dove Project is not allowed.")]
     PullDoveProjectIsNotAllowed,

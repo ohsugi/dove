@@ -36,14 +36,15 @@ pub fn handler(
         dove_fund.user_pubkey == user.key(),
         ErrorCode::InvalidUserToUpdateDoveFund
     );
-
     require!(
         dove_fund.project_pubkey == dove_project.key(),
         ErrorCode::InvalidProjectToUpdateDoveFund
     );
-
+    require!(
+        !dove_project.is_deleted,
+        ErrorCode::DoveProjectIsAlreadyDeleted
+    );
     require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
-
     require!(
         new_amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
@@ -52,7 +53,6 @@ pub fn handler(
         dove_project.amount_pooled + new_amount_pooled <= DoveFund::MAX_AMOUNT_TO_POOLED,
         ErrorCode::TooLargeAmountPooled
     );
-
     require!(
         new_decision >= DoveFund::MIN_PERCENTAGE,
         ErrorCode::TooSmallDecision
