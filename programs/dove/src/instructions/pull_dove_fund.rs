@@ -1,6 +1,6 @@
 use crate::{
     error::ErrorCode,
-    model::{DoveFund, DoveProject, SizeDef},
+    model::{DoveCampaign, DoveFund, SizeDef},
 };
 use anchor_lang::{accounts::account::Account, prelude::*};
 
@@ -11,7 +11,7 @@ pub struct PullDoveFund<'info> {
     #[account(mut)]
     pub dove_fund: Account<'info, DoveFund>,
     #[account(mut)]
-    pub dove_project: Account<'info, DoveProject>,
+    pub dove_campaign: Account<'info, DoveCampaign>,
     #[account(mut)]
     pub admin: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -19,21 +19,21 @@ pub struct PullDoveFund<'info> {
 
 pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
     let dove_fund: &mut Account<DoveFund> = &mut ctx.accounts.dove_fund;
-    let dove_project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
+    let dove_campaign: &mut Account<DoveCampaign> = &mut ctx.accounts.dove_campaign;
     let admin: &mut Signer = &mut ctx.accounts.admin;
 
     require!(
-        dove_fund.project_pubkey == dove_project.key(),
-        ErrorCode::InvalidProject
+        dove_fund.campaign_pubkey == dove_campaign.key(),
+        ErrorCode::InvalidCampaign
     );
 
     require!(
-        dove_project.admin_pubkey == admin.key(),
+        dove_campaign.admin_pubkey == admin.key(),
         ErrorCode::InvalidUser
     );
 
     require!(
-        dove_project.decision >= DoveProject::DECISION_THRESHOLD,
+        dove_campaign.decision >= DoveCampaign::DECISION_THRESHOLD,
         ErrorCode::PullFundsIsNotAllowed
     );
 
@@ -42,10 +42,10 @@ pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
         ErrorCode::TooSmallAmountPooled
     );
 
-    require!(dove_project.is_locked, ErrorCode::DoveProjectIsNotLocked);
+    require!(dove_campaign.is_locked, ErrorCode::DoveCampaignIsNotLocked);
 
     require!(
-        dove_fund.update_date < dove_project.last_date_transferred,
+        dove_fund.update_date < dove_campaign.last_date_transferred,
         ErrorCode::DoveFundWasAlreadyTransferred
     );
 
@@ -58,12 +58,12 @@ pub fn handler(ctx: Context<PullDoveFund>) -> Result<()> {
     dove_fund.amount_pooled = 0;
     let now_date: i64 = anchor_lang::solana_program::clock::Clock::get()?.unix_timestamp;
     dove_fund.update_date = now_date;
-    dove_project.update_date = now_date;
-    dove_project.amount_pooled -= pooled_amount;
-    dove_project.amount_transferred += pooled_amount;
+    dove_campaign.update_date = now_date;
+    dove_campaign.amount_pooled -= pooled_amount;
+    dove_campaign.amount_transferred += pooled_amount;
 
-    if dove_project.amount_pooled == 0 {
-        dove_project.is_locked = false;
+    if dove_campaign.amount_pooled == 0 {
+        dove_campaign.is_locked = false;
     }
     Ok(())
 }
