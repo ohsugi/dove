@@ -37,30 +37,30 @@ pub trait SizeDef {
 }
 
 #[account]
-pub struct DoveProject {
+pub struct DoveCampaign {
     pub admin_pubkey: Pubkey,          // Admin's Wallet
     pub evidence_link: String,         // HTML link to prove Admin's identity
-    pub project_name: String,          // Project Name
+    pub campaign_name: String,         // Campaign Name
     pub target_country_code: String,   // Target country (ISO shortcode)
     pub opponent_country_code: String, // Opponent country (ISO shortcode), "" means no specific country
     pub description: String,           // Description and the usage of the transferred Solana
-    pub created_date: i64,             // Project craetion date (as Unix Time)
-    pub update_date: i64,              // Project update date (as Unix Time)
-    pub is_locked: bool,               // If project is locked
-    pub is_deleted: bool,              // If project is deleted
-    pub video_link: String,            // Video link to describe the project (intended youtube link)
-    pub amount_pooled: u64,            // The current pooled amount (as Lamports)
-    pub amount_transferred: u64,       // The amount transferred so far (as Lamports)
-    pub decision: f32,                 // The current decision for this project
-    pub last_date_transferred: i64,    // The last time pooled amount was transferred
-    pub bump: u8,                      // The bump number to avoid the duplicated PDA address
+    pub created_date: i64,             // Campaign craetion date (as Unix Time)
+    pub update_date: i64,              // Campaign update date (as Unix Time)
+    pub is_locked: bool,               // If campaign is locked
+    pub is_deleted: bool,              // If campaign is deleted
+    pub video_link: String, // Video link to describe the campaign (intended youtube link)
+    pub amount_pooled: u64, // The current pooled amount (as Lamports)
+    pub amount_transferred: u64, // The amount transferred so far (as Lamports)
+    pub decision: f32,      // The current decision for this campaign
+    pub last_date_transferred: i64, // The last time pooled amount was transferred
+    pub bump: u8,           // The bump number to avoid the duplicated PDA address
 }
 
-impl DoveProject {
+impl DoveCampaign {
     pub const MIN_ADMIN_NAME: usize = 3;
     pub const MAX_ADMIN_NAME: usize = 32;
-    pub const MIN_PROJECT_NAME: usize = 3;
-    pub const MAX_PROJECT_NAME: usize = 256;
+    pub const MIN_CAMPAIGN_NAME: usize = 3;
+    pub const MAX_CAMPAIGN_NAME: usize = 256;
     pub const MIN_COUNTRY_CODE: usize = 0;
     pub const MAX_COUNTRY_CODE: usize = 2;
     pub const MIN_DESCRIPTION: usize = 128;
@@ -68,38 +68,38 @@ impl DoveProject {
     pub const DECISION_THRESHOLD: f32 = 0.50;
 }
 
-impl SizeDef for DoveProject {
-    const SIZE: usize = DoveProject::HEADER_SIZE // Header
-        + DoveProject::PUBKEY_SIZE               // admin_pubkey
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_ADMIN_NAME * DoveProject::STRING_SIZE   // admin_name
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // evidence_link
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_PROJECT_NAME * DoveProject::STRING_SIZE // project_name
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // target_country_code
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_COUNTRY_CODE * DoveProject::STRING_SIZE // opponent_country_code
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_DESCRIPTION * DoveProject::STRING_SIZE  // description
-        + DoveProject::I64_SZIE       // created_date
-        + DoveProject::I64_SZIE       // update_date
-        + DoveProject::BOOL_SIZE      // is_locked
-        + DoveProject::BOOL_SIZE      // is_deleted
-        + DoveProject::VEC_HEADER_SIZE + DoveProject::MAX_HYPERLINK * DoveProject::STRING_SIZE    // video_link
-        + DoveProject::U64_SIZE       // amount_pooled
-        + DoveProject::U64_SIZE       // amount_transferred
-        + DoveProject::F32_SIZE       // decision
-        + DoveProject::I64_SZIE       // last_date_transferred
-        + DoveProject::BUMP_SIZE      // bump
+impl SizeDef for DoveCampaign {
+    const SIZE: usize = DoveCampaign::HEADER_SIZE // Header
+        + DoveCampaign::PUBKEY_SIZE               // admin_pubkey
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_ADMIN_NAME * DoveCampaign::STRING_SIZE   // admin_name
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_HYPERLINK * DoveCampaign::STRING_SIZE    // evidence_link
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_CAMPAIGN_NAME * DoveCampaign::STRING_SIZE // campaign_name
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_COUNTRY_CODE * DoveCampaign::STRING_SIZE // target_country_code
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_COUNTRY_CODE * DoveCampaign::STRING_SIZE // opponent_country_code
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_DESCRIPTION * DoveCampaign::STRING_SIZE  // description
+        + DoveCampaign::I64_SZIE       // created_date
+        + DoveCampaign::I64_SZIE       // update_date
+        + DoveCampaign::BOOL_SIZE      // is_locked
+        + DoveCampaign::BOOL_SIZE      // is_deleted
+        + DoveCampaign::VEC_HEADER_SIZE + DoveCampaign::MAX_HYPERLINK * DoveCampaign::STRING_SIZE    // video_link
+        + DoveCampaign::U64_SIZE       // amount_pooled
+        + DoveCampaign::U64_SIZE       // amount_transferred
+        + DoveCampaign::F32_SIZE       // decision
+        + DoveCampaign::I64_SZIE       // last_date_transferred
+        + DoveCampaign::BUMP_SIZE      // bump
     ;
 }
 
 #[account]
 pub struct DoveFund {
-    pub project_pubkey: Pubkey,         // The target project pubkey
+    pub campaign_pubkey: Pubkey,        // The target campaign pubkey
     pub user_pubkey: Pubkey,            // The founder's Wallet pubkey
     pub amount_pooled: u64,             // The current pooled amount
     pub amount_transferred: u64,        // The transferred amount so far
     pub decision: f32,                  // The decision percentage
-    pub shows_user: bool,               // If the user will be shown on the project webpage
-    pub shows_pooled_amount: bool, // If the user's pooled amount on the project webpage (as Lamports)
-    pub shows_transferred_amount: bool, // If the user's transferred amount on the project webpage (as Lamports)
+    pub shows_user: bool,               // If the user will be shown on the campaign webpage
+    pub shows_pooled_amount: bool, // If the user's pooled amount on the campaign webpage (as Lamports)
+    pub shows_transferred_amount: bool, // If the user's transferred amount on the campaign webpage (as Lamports)
     pub created_date: i64,              // Fund craetion date (as Unix Time)
     pub update_date: i64,               // Fund update date (as Unix Time)
     pub bump: u8,                       // The bump number to avoid the duplicated PDA address
@@ -109,7 +109,7 @@ impl DoveFund {}
 
 impl SizeDef for DoveFund {
     const SIZE: usize = DoveFund::HEADER_SIZE // Header
-        + DoveFund::PUBKEY_SIZE    // project_pubkey
+        + DoveFund::PUBKEY_SIZE    // campaign_pubkey
         + DoveFund::PUBKEY_SIZE    // user_pubkey
         + DoveFund::U64_SIZE       // amount_pooled
         + DoveFund::U64_SIZE       // amount_transferred
@@ -129,7 +129,7 @@ pub struct DoveUser {
     pub user_name: String,         // User name
     pub social_media_link: String, // Social media links of the user
     pub evidence_link: String,     // HTML link to prove own identity
-    pub is_shown: bool,            // The profile will be shown on each project webpage
+    pub is_shown: bool,            // The profile will be shown on each campaign webpage
     pub created_date: i64,         // User craetion date (as Unix Time)
     pub update_date: i64,          // User update date (as Unix Time)
     pub bump: u8,                  // The bump number to avoid the duplicated PDA address

@@ -12,19 +12,19 @@ declare_id!("7ucMA2F1i5V1U2WDSEdwJhmdTc34aRZCxpbvkzF56XGs");
 pub mod dove {
     use super::*;
 
-    pub fn create_dove_project(
-        ctx: Context<CreateDoveProject>,
+    pub fn create_dove_campaign(
+        ctx: Context<CreateDoveCampaign>,
         evidence_link: String,
-        project_name: String,
+        campaign_name: String,
         target_country_name: String,
         opponent_country_name: String,
         description: String,
         video_link: String,
     ) -> Result<()> {
-        create_dove_project::handler(
+        create_dove_campaign::handler(
             ctx,
             evidence_link,
-            project_name,
+            campaign_name,
             target_country_name,
             opponent_country_name,
             description,
@@ -32,20 +32,20 @@ pub mod dove {
         )
     }
 
-    pub fn update_dove_project(
-        ctx: Context<UpdateDoveProject>,
+    pub fn update_dove_campaign(
+        ctx: Context<UpdateDoveCampaign>,
         evidence_link: String,
-        project_name: String,
+        campaign_name: String,
         target_country_name: String,
         opponent_country_name: String,
         description: String,
         video_link: String,
         is_locked: bool,
     ) -> Result<()> {
-        update_dove_project::handler(
+        update_dove_campaign::handler(
             ctx,
             evidence_link,
-            project_name,
+            campaign_name,
             target_country_name,
             opponent_country_name,
             description,
@@ -54,19 +54,19 @@ pub mod dove {
         )
     }
 
-    pub fn pull_dove_project(
-        ctx: Context<PullDoveProject>,
+    pub fn pull_dove_campaign(
+        ctx: Context<PullDoveCampaign>,
         checked_amount_pooled: u64,
     ) -> Result<()> {
-        pull_dove_project::handler(ctx, checked_amount_pooled)
+        pull_dove_campaign::handler(ctx, checked_amount_pooled)
     }
 
     pub fn pull_dove_fund(ctx: Context<PullDoveFund>) -> Result<()> {
         pull_dove_fund::handler(ctx)
     }
 
-    pub fn delete_dove_project(ctx: Context<DeleteDoveProject>) -> Result<()> {
-        delete_dove_project::handler(ctx)
+    pub fn delete_dove_campaign(ctx: Context<DeleteDoveCampaign>) -> Result<()> {
+        delete_dove_campaign::handler(ctx)
     }
 
     pub fn create_dove_user(

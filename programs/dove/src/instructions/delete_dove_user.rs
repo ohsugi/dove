@@ -18,6 +18,6 @@ pub fn handler(ctx: Context<DeleteDoveUser>) -> Result<()> {
 
     require!(dove_user.user_pubkey == user.key(), ErrorCode::InvalidUser);
 
-    // Deleting DoveUser will only removes the information for that user and pulls back the stored Lamports to the user's wallet, and no direct effect on DoveProject or DoveFund.
+    // Deleting DoveUser will only removes the information for that user and pulls back the stored Lamports to the user's wallet, and no direct effect on DoveCampaign or DoveFund.
     Ok(())
 }

@@ -1,4 +1,4 @@
-use crate::{model::{DoveFund, DoveProject, SizeDef}, error::ErrorCode};
+use crate::{model::{DoveFund, DoveCampaign, SizeDef}, error::ErrorCode};
 use anchor_lang::{prelude::*, accounts::account::Account};
 
 #[derive(Accounts)]
@@ -14,7 +14,7 @@ pub struct UpdateDoveFund<'info> {
     #[account(mut)]
     pub dove_fund: Account<'info, DoveFund>,
     #[account(mut)]
-    pub dove_project: Account<'info, DoveProject>,
+    pub dove_campaign: Account<'info, DoveCampaign>,
     #[account(mut)]
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -29,7 +29,7 @@ pub fn handler(
     new_shows_transferred_amount: bool, // New shows_transferred_amount flag
 ) -> Result<()> {
     let dove_fund: &mut Account<DoveFund> = &mut ctx.accounts.dove_fund;
-    let dove_project: &mut Account<DoveProject> = &mut ctx.accounts.dove_project;
+    let dove_campaign: &mut Account<DoveCampaign> = &mut ctx.accounts.dove_campaign;
     let user: &mut Signer = &mut ctx.accounts.user;
 
     require!(
@@ -37,20 +37,20 @@ pub fn handler(
         ErrorCode::InvalidUser
     );
     require!(
-        dove_fund.project_pubkey == dove_project.key(),
-        ErrorCode::InvalidProject
+        dove_fund.campaign_pubkey == dove_campaign.key(),
+        ErrorCode::InvalidCampaign
     );
     require!(
-        !dove_project.is_deleted,
-        ErrorCode::DoveProjectIsAlreadyDeleted
+        !dove_campaign.is_deleted,
+        ErrorCode::DoveCampaignIsAlreadyDeleted
     );
-    require!(!dove_project.is_locked, ErrorCode::DoveProjectIsLocked);
+    require!(!dove_campaign.is_locked, ErrorCode::DoveCampaignIsLocked);
     require!(
         new_amount_pooled > DoveFund::MIN_AMOUNT_TO_POOLED,
         ErrorCode::TooSmallAmountPooled
     );
     require!(
-        dove_project.amount_pooled + new_amount_pooled <= DoveFund::MAX_AMOUNT_TO_POOLED,
+        dove_campaign.amount_pooled + new_amount_pooled <= DoveFund::MAX_AMOUNT_TO_POOLED,
         ErrorCode::TooLargeAmountPooled
     );
     require!(
@@ -66,8 +66,8 @@ pub fn handler(
             ErrorCode::NoUpdateApplied
     );
 
-    // If the last update was before the last transaction of the project, the pooled money was transferred.
-    if dove_fund.update_date < dove_project.last_date_transferred {
+    // If the last update was before the last transaction of the campaign, the pooled money was transferred.
+    if dove_fund.update_date < dove_campaign.last_date_transferred {
         dove_fund.amount_transferred = dove_fund.amount_pooled;
     }
 
@@ -90,7 +90,7 @@ pub fn handler(
 
     // Withdraw the amount pooled from the DoveFund
     } else if dove_fund.amount_pooled > new_amount_pooled {
-        // Transfer Solana to the user wallet from dove_project_account
+        // Transfer Solana to the user wallet from dove_campaign_account
         let withdraw_amount = dove_fund.amount_pooled - new_amount_pooled;
         // Transfer Solana to the user wallet from dove_fund_account
         let rent_balance = Rent::get()?.minimum_balance(dove_fund.to_account_info().data_len());
@@ -109,12 +109,12 @@ pub fn handler(
     dove_fund.shows_transferred_amount = new_shows_transferred_amount;
     dove_fund.update_date = DoveFund::get_now_as_unix_time();
 
-    // Update DoveProject
-    let old_project_amount_pooled: u64 = dove_project.amount_pooled;
-    let old_project_decision:f32 = dove_project.decision;
+    // Update DoveCampaign
+    let old_campaign_amount_pooled: u64 = dove_campaign.amount_pooled;
+    let old_campaign_decision:f32 = dove_campaign.decision;
 
-    dove_project.amount_pooled = dove_project.amount_pooled - old_amount_pooled + new_amount_pooled;
-    dove_project.decision = (old_project_amount_pooled as f32 * old_project_decision - old_amount_pooled as f32 * old_decision + new_amount_pooled as f32 * new_decision) / (old_project_amount_pooled - old_amount_pooled + new_amount_pooled) as f32;
-    dove_project.update_date = dove_fund.update_date;
+    dove_campaign.amount_pooled = dove_campaign.amount_pooled - old_amount_pooled + new_amount_pooled;
+    dove_campaign.decision = (old_campaign_amount_pooled as f32 * old_campaign_decision - old_amount_pooled as f32 * old_decision + new_amount_pooled as f32 * new_decision) / (old_campaign_amount_pooled - old_amount_pooled + new_amount_pooled) as f32;
+    dove_campaign.update_date = dove_fund.update_date;
     Ok(())
 }

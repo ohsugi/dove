@@ -5,10 +5,10 @@ pub enum ErrorCode {
     #[msg("Too long Evidence Link.")]
     TooLongEvidenceLink,
 
-    #[msg("Too short Project Name.")]
-    TooShortProjectName,
-    #[msg("Too long Project Name.")]
-    TooLongProjectName,
+    #[msg("Too short Campaign Name.")]
+    TooShortCampaignName,
+    #[msg("Too long Campaign Name.")]
+    TooLongCampaignName,
 
     #[msg("Invalid Target Country name.")]
     InvalidTargetCountryName,
@@ -19,9 +19,9 @@ pub enum ErrorCode {
     #[msg("Target Country and Opponent Country are the same.")]
     TargetAndOpponentCountriesAreSame,
 
-    #[msg("Too short project Description.")]
+    #[msg("Too short campaign Description.")]
     TooShortDescription,
-    #[msg("Too long project Description.")]
+    #[msg("Too long campaign Description.")]
     TooLongDescription,
 
     #[msg("Too long Video link.")]
@@ -59,23 +59,23 @@ pub enum ErrorCode {
     #[msg("No change applied to the Target PDF.")]
     NoUpdateApplied,
 
-    #[msg("Dove Project is locked.")]
-    DoveProjectIsLocked,
+    #[msg("Dove Campaign is locked.")]
+    DoveCampaignIsLocked,
 
-    #[msg("Dove Project is not locked.")]
-    DoveProjectIsNotLocked,
+    #[msg("Dove Campaign is not locked.")]
+    DoveCampaignIsNotLocked,
 
-    #[msg("Dove Project is already deleted.")]
-    DoveProjectIsAlreadyDeleted,
+    #[msg("Dove Campaign is already deleted.")]
+    DoveCampaignIsAlreadyDeleted,
 
     #[msg("Pull Funds from the Target PDA is not allowed.")]
     PullFundsIsNotAllowed,
 
-    #[msg("Inconsistent amount pooled between checked amount and Dove Project's pooled amount.")]
+    #[msg("Inconsistent amount pooled between checked amount and Dove Campaign's pooled amount.")]
     InconsistentAmountPooled,
 
-    #[msg("Invalid project for the Target PDA.")]
-    InvalidProject,
+    #[msg("Invalid campaign for the Target PDA.")]
+    InvalidCampaign,
 
     #[msg("Dove Fund was already transferred.")]
     DoveFundWasAlreadyTransferred,

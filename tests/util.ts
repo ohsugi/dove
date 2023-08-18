@@ -108,12 +108,12 @@ export const getBalance = async (
     program: Program<Dove>,
     wallet: web3.PublicKey,
 ): Promise<number> => {
-    return (await program.account.doveProject.getAccountInfo(wallet)).lamports
+    return (await program.account.doveCampaign.getAccountInfo(wallet)).lamports
 };
 
-export const createDoveProject = async (
+export const createDoveCampaign = async (
     evidence_link: string,
-    project_name: string,
+    campaign_name: string,
     target_country_name: string,
     opponent_country_name: string,
     description: string,
@@ -121,32 +121,32 @@ export const createDoveProject = async (
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
-    const [doveProject, _] = await findAddress(
+    const [doveCampaign, _] = await findAddress(
         [
-            stringToBytes("dove_project"),
+            stringToBytes("dove_campaign"),
             admin.publicKey.toBuffer(),
-            stringToBytes(project_name),
+            stringToBytes(campaign_name),
         ]);
 
-    await program.methods.createDoveProject(
+    await program.methods.createDoveCampaign(
         evidence_link,
-        project_name,
+        campaign_name,
         target_country_name,
         opponent_country_name,
         description,
         video_link,
     ).accounts({
-        doveProject,
+        doveCampaign,
         admin: admin.publicKey,
         systemProgram: SystemProgram.programId,
     }).signers([admin]).rpc();
-    return doveProject;
+    return doveCampaign;
 };
 
-export const updateDoveProject = async (
-    doveProject: web3.PublicKey,
+export const updateDoveCampaign = async (
+    doveCampaign: web3.PublicKey,
     evidence_link: string,
-    project_name: string,
+    campaign_name: string,
     target_country_name: string,
     opponent_country_name: string,
     description: string,
@@ -155,66 +155,66 @@ export const updateDoveProject = async (
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
-    await program.methods.updateDoveProject(
+    await program.methods.updateDoveCampaign(
         evidence_link,
-        project_name,
+        campaign_name,
         target_country_name,
         opponent_country_name,
         description,
         video_link,
         is_locked,
     ).accounts({
-        doveProject,
+        doveCampaign,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
-    return doveProject;
+    return doveCampaign;
 };
 
-export const pullDoveProject = async (
-    doveProject: web3.PublicKey,
+export const pullDoveCampaign = async (
+    doveCampaign: web3.PublicKey,
     checked_amount_pooled: number,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
-    await program.methods.pullDoveProject(
+    await program.methods.pullDoveCampaign(
         checked_amount_pooled,
     ).accounts({
-        doveProject,
+        doveCampaign,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
-    return doveProject;
+    return doveCampaign;
 };
 
 export const pullDoveFund = async (
     doveFund: web3.PublicKey,
-    doveProject: web3.PublicKey,
+    doveCampaign: web3.PublicKey,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
     await program.methods.pullDoveFund(
     ).accounts({
         doveFund,
-        doveProject,
+        doveCampaign,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
     return doveFund;
 };
 
-export const deleteDoveProject = async (
-    doveProject: web3.PublicKey,
+export const deleteDoveCampaign = async (
+    doveCampaign: web3.PublicKey,
     program: Program<Dove>,
     admin: web3.Keypair,
 ): Promise<web3.PublicKey> => {
-    await program.methods.deleteDoveProject(
+    await program.methods.deleteDoveCampaign(
     ).accounts({
-        doveProject,
+        doveCampaign,
         admin: admin.publicKey,
     }).signers([admin]).rpc();
-    return doveProject;
+    return doveCampaign;
 };
 
 export const createDoveFund = async (
-    doveProject: web3.PublicKey,
+    doveCampaign: web3.PublicKey,
     amount_pooled: number,
     decision: number,
     shows_user: boolean,
@@ -226,7 +226,7 @@ export const createDoveFund = async (
     const [doveFund, __] = await findAddress(
         [
             stringToBytes("dove_fund"),
-            doveProject.toBuffer(),
+            doveCampaign.toBuffer(),
             user.publicKey.toBuffer(),
         ]);
 
@@ -238,7 +238,7 @@ export const createDoveFund = async (
         shows_transferred_amount,
     ).accounts({
         doveFund,
-        doveProject,
+        doveCampaign,
         user: user.publicKey,
         systemProgram: SystemProgram.programId,
     }).signers([user]).rpc();
@@ -246,7 +246,7 @@ export const createDoveFund = async (
 };
 
 export const updateDoveFund = async (
-    doveProject: web3.PublicKey,
+    doveCampaign: web3.PublicKey,
     new_amount_pooled: number,
     new_decision: number,
     new_shows_user: boolean,
@@ -258,7 +258,7 @@ export const updateDoveFund = async (
     const [doveFund, __] = await findAddress(
         [
             stringToBytes("dove_fund"),
-            doveProject.toBuffer(),
+            doveCampaign.toBuffer(),
             user.publicKey.toBuffer(),
         ]);
 
@@ -270,7 +270,7 @@ export const updateDoveFund = async (
         new_shows_transferred_amount,
     ).accounts({
         doveFund,
-        doveProject,
+        doveCampaign,
         user: user.publicKey,
         systemProgram: SystemProgram.programId,
     }).signers([user]).rpc();
@@ -278,21 +278,21 @@ export const updateDoveFund = async (
 };
 
 export const deleteDoveFund = async (
-    doveProject: web3.PublicKey,
+    doveCampaign: web3.PublicKey,
     program: Program<Dove>,
     user: web3.Keypair,
 ): Promise<web3.PublicKey> => {
     const [doveFund, __] = await findAddress(
         [
             stringToBytes("dove_fund"),
-            doveProject.toBuffer(),
+            doveCampaign.toBuffer(),
             user.publicKey.toBuffer(),
         ]);
 
     await program.methods.deleteDoveFund(
     ).accounts({
         doveFund,
-        doveProject,
+        doveCampaign,
         user: user.publicKey,
         systemProgram: SystemProgram.programId,
     }).signers([user]).rpc();
