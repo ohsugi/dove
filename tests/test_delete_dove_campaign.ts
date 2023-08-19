@@ -26,7 +26,7 @@ describe("test_delete_dove_campaign", () => {
         let doveCampaign = await createDoveCampaign(
             "",
             "Test Porject 7",
-            "China",
+            "Japan",
             "",
             "This is the test dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!",
             "",
@@ -38,7 +38,7 @@ describe("test_delete_dove_campaign", () => {
         assert.equal(doveCampaignAccount.adminPubkey.toString(), admin.publicKey.toString());
         assert.equal(doveCampaignAccount.evidenceLink, "");
         assert.equal(doveCampaignAccount.campaignName, "Test Porject 7");
-        assert.equal(doveCampaignAccount.targetCountryCode, "CN");
+        assert.equal(doveCampaignAccount.targetCountryCode, "JP");
         assert.equal(doveCampaignAccount.opponentCountryCode, "");
         assert.equal(doveCampaignAccount.description, "This is the test dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
         assert.ok(equalDateTime(doveCampaignAccount.createdDate, dove_campaign_created_date));
@@ -154,8 +154,8 @@ describe("test_delete_dove_campaign", () => {
                 doveCampaign,
                 "https://twitter.com/Ohsugi/status/1616505441705463816?s=20&t=vofTMniwI3ysTx9wyxy8dA",
                 "Test Porject 2",
-                "Taiwan, Province of China[a]",
-                "China",
+                "No Place, Unknown, or Undetermined",
+                "Japan",
                 "This is the updated dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!",
                 "https://www.youtube.com/watch?v=zcVfBMse1Uw&ab_channel=DATALab",
                 false,

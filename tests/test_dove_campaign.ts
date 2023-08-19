@@ -17,12 +17,13 @@ describe("test_dove_campaign", () => {
     admin = await createUser(program, DEFAULT_LAMPORTS);
   })
 
+  // This test case was not intended for the actual potential conflict of the country code, but only test.
   it("createDoveCampaign", async () => {
     const doveCampaign = await createDoveCampaign(
       "",
       "Test Porject 0",
-      "Taiwan, Province of China[a]",
-      "China",
+      "United States of America",
+      "Cayman Islands",
       "This is the test dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!",
       "",
       program,
@@ -33,8 +34,8 @@ describe("test_dove_campaign", () => {
     assert.equal(doveCampaignAccount.adminPubkey.toString(), admin.publicKey.toString());
     assert.equal(doveCampaignAccount.evidenceLink, "");
     assert.equal(doveCampaignAccount.campaignName, "Test Porject 0");
-    assert.equal(doveCampaignAccount.targetCountryCode, "TW");
-    assert.equal(doveCampaignAccount.opponentCountryCode, "CN");
+    assert.equal(doveCampaignAccount.targetCountryCode, "US");
+    assert.equal(doveCampaignAccount.opponentCountryCode, "KY");
     assert.equal(doveCampaignAccount.description, "This is the test dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
     assert.equal(doveCampaignAccount.createdDate.toNumber(), doveCampaignAccount.updateDate.toNumber());
     assert.ok(!doveCampaignAccount.isLocked);
@@ -77,12 +78,13 @@ describe("test_dove_campaign", () => {
 
     await sleep();
 
+    // This test case was not intended for the actual potential conflict of the country code, but only test.
     const updatedCampaign = await updateDoveCampaign(
       doveCampaign,
       "https://twitter.com/Ohsugi/status/1616505441705463816?s=20&t=vofTMniwI3ysTx9wyxy8dA",
       "Test Porject 2",
-      "Taiwan, Province of China[a]",
-      "China",
+      "Japan",
+      "Cayman Islands",
       "This is the updated dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!",
       "https://www.youtube.com/watch?v=zcVfBMse1Uw&ab_channel=DATALab",
       false,
@@ -93,8 +95,8 @@ describe("test_dove_campaign", () => {
     assert.equal(doveCampaignAccount.adminPubkey.toString(), admin.publicKey.toString());
     assert.equal(updatedCampaignAccount.evidenceLink, "https://twitter.com/Ohsugi/status/1616505441705463816?s=20&t=vofTMniwI3ysTx9wyxy8dA");
     assert.equal(updatedCampaignAccount.campaignName, "Test Porject 2");
-    assert.equal(updatedCampaignAccount.targetCountryCode, "TW");
-    assert.equal(updatedCampaignAccount.opponentCountryCode, "CN");
+    assert.equal(updatedCampaignAccount.targetCountryCode, "JP");
+    assert.equal(updatedCampaignAccount.opponentCountryCode, "KY");
     assert.equal(updatedCampaignAccount.description, "This is the updated dove campaign, and the minimum length of this description should be more than 128, so I need to put more words to go through the test!!");
     assert.notEqual(updatedCampaignAccount.createdDate.toNumber(), updatedCampaignAccount.updateDate.toNumber());
     assert.ok(!updatedCampaignAccount.isLocked);
